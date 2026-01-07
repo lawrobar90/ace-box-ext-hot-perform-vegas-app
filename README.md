@@ -22,6 +22,19 @@ Please add a note pointing out which versions of the external use case are compa
 
 ## Extra variables
 
+### Optional: GitHub Personal Access Token
+
+For private repositories or to avoid GitHub API rate limits, you can provide a GitHub Personal Access Token:
+
+```bash
+ace enable https://github.com/lawrobar90/ace-box-ext-hot-perform-vegas-app.git \
+  --extra-vars "github_personal_access_token=ghp_your_token_here"
+```
+
+**📖 See [GitHub PAT Setup Guide](docs/GITHUB_PAT_SETUP.md) for detailed instructions on creating and using tokens.**
+
+### Other Variables
+
 Add notes of the extra vars needed to be configured
 
 ## DTU provisioning

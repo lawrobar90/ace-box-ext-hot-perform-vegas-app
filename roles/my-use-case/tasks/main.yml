@@ -103,13 +103,23 @@
       DT_OAUTH_CLIENT_SECRET: "{{ extra_vars.dt_oauth_client_secret }}"
       DT_OAUTH_SSO_ENDPOINT: "{{ extra_vars.dt_oauth_sso_endpoint }}"
 
+- name: Set repository URL with authentication
+  set_fact:
+    bizobs_repo_url_auth: >-
+      {{
+        bizobs_repo_url | regex_replace('^https://github.com/', 'https://' + github_personal_access_token + '@github.com/')
+        if github_personal_access_token | default('') | length > 0
+        else bizobs_repo_url
+      }}
+
 - name: Clone repository
   ansible.builtin.git:
-    repo: "{{ bizobs_repo_url }}"
+    repo: "{{ bizobs_repo_url_auth }}"
     dest: "{{ bizobs_app_dir }}"
     version: "main"
     force: yes
   become_user: "{{ ace_box_user | default('dt_training') }}"
+  no_log: true  # Prevent token from appearing in logs
 
 # Use the comprehensive startup script from the app repository
 # This avoids duplication and uses the battle-tested 501-line script

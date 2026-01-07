@@ -13,3 +13,8 @@ industry_type: "technology"
 # Deployment settings
 force_clone: false
 startup_timeout: 45
+
+# GitHub authentication (optional)
+# Set github_personal_access_token to enable authenticated git operations
+# This is useful for private repositories or rate limit avoidance
+github_personal_access_token: ""

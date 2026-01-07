@@ -1,0 +1,33 @@
+# Secrets and sensitive files
+secrets.yml
+secrets.yaml
+*.secret
+*.token
+.env
+.env.local
+
+# GitHub Personal Access Tokens
+github_token.txt
+pat.txt
+
+# Ansible Vault files (unless encrypted)
+vault.yml
+vault_pass.txt
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.sublime-*
+
+# Log files
+*.log
