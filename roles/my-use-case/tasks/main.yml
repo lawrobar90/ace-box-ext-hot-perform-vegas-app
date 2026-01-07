@@ -107,7 +107,7 @@
   set_fact:
     bizobs_repo_url_auth: >-
       {{
-        bizobs_repo_url | regex_replace('^(https?://)([a-zA-Z0-9]+([.-][a-zA-Z0-9]+)*)/', '\1' + github_personal_access_token + '@\2/')
+        bizobs_repo_url | regex_replace('^(https?://)([a-zA-Z0-9]+(?:[.-][a-zA-Z0-9]+)*)/', '\1' + github_personal_access_token + '@\2/')
         if github_personal_access_token | default('') | length > 0
         else bizobs_repo_url
       }}
