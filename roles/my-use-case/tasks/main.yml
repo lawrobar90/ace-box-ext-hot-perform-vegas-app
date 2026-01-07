@@ -107,10 +107,11 @@
   set_fact:
     bizobs_repo_url_auth: >-
       {{
-        bizobs_repo_url | regex_replace('^https://github.com/', 'https://' + github_personal_access_token + '@github.com/')
+        bizobs_repo_url | regex_replace('^(https?://)(github\.com|[^/]+)/', '\1' + github_personal_access_token + '@\2/')
         if github_personal_access_token | default('') | length > 0
         else bizobs_repo_url
       }}
+  no_log: true  # Prevent token from appearing in logs
 
 - name: Clone repository
   ansible.builtin.git:
