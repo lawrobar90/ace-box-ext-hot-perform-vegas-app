@@ -211,69 +211,7 @@
     definition: "{{ lookup('template', 'vegas-dashboard.yml.j2') | from_yaml_all | list }}"
     state: present
 
-# Deploy collaboration tools
-- include_role:
-    name: "mattermost"
 
-# Fix Mattermost ingress configuration for proper public access
-- name: Fix Mattermost ingress service name and configuration
-  block:
-    - name: Delete any existing incorrect Mattermost ingress
-      kubernetes.core.k8s:
-        api_version: networking.k8s.io/v1
-        kind: Ingress
-        name: mattermost-mattermost-team-edition
-        namespace: mattermost
-        state: absent
-      failed_when: false
-      
-    - name: Create correct Mattermost ingress
-      kubernetes.core.k8s:
-        definition:
-          apiVersion: networking.k8s.io/v1
-          kind: Ingress
-          metadata:
-            name: mattermost-mattermost-team-edition
-            namespace: mattermost
-            annotations:
-              kubernetes.io/ingress.class: public
-              nginx.ingress.kubernetes.io/proxy-body-size: "0"
-              nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
-              nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
-              nginx.ingress.kubernetes.io/ssl-redirect: "false"
-          spec:
-            ingressClassName: "public"
-            rules:
-            - host: "mattermost.{{ ingress_domain }}"
-              http:
-                paths:
-                - path: /
-                  pathType: ImplementationSpecific
-                  backend:
-                    service:
-                      name: mattermost-team-edition
-                      port:
-                        number: 8065
-        state: present
-      register: mattermost_ingress_result
-      
-    - name: Log Mattermost ingress fix
-      ansible.builtin.debug:
-        msg: "Mattermost ingress fixed: {{ mattermost_ingress_result is succeeded }}"
-
-# Get Mattermost credentials for dashboard configuration
-- name: Get Mattermost admin password for dashboard
-  kubernetes.core.k8s_info:
-    api_version: v1
-    kind: Secret
-    name: mattermost-team-edition
-    namespace: mattermost
-  register: mattermost_secret
-  failed_when: false
-
-- name: Set Mattermost credentials for dashboard
-  ansible.builtin.set_fact:
-    mattermost_password: "{{ mattermost_secret.resources[0].data.password | b64decode | default('admin123') if mattermost_secret.resources else 'admin123' }}"
 
 # Log deployment completion
 - name: Display Vegas Casino deployment completion
@@ -285,13 +223,11 @@
       1. ✅ Dynatrace OneAgent & Monaco Config
       2. ✅ Vegas Casino Kubernetes App (verified healthy)
       3. ✅ ACE Dashboard (nginx-based, OneAgent compatible)
-      4. ✅ Mattermost Collaboration
-      5. ✅ Public Access Configuration
+      4. ✅ Public Access Configuration
       
       🔗 Access URLs:
       - 🎰 Vegas Casino: http://vegas.{{ ingress_domain }}/
       - 📊 ACE Dashboard: http://dashboard.{{ ingress_domain }}/
-      - 💬 Mattermost: http://mattermost.{{ ingress_domain }}/
       - 🔍 Dynatrace: {{ extra_vars.dt_environment_url_gen3.rstrip('/') }}
       
       🎯 Vegas Casino Features Ready:
@@ -313,6 +249,5 @@
       - Vegas Casino: ✅ Kubernetes deployment with ingress
       - ACE Dashboard: ✅ nginx-based, OneAgent compatible  
       - Public Access: ✅ All services accessible via ingress
-      - Mattermost Password: {{ mattermost_password }}
       
       💡 All services deployed with ACE-BOX standards and Kubernetes best practices!
