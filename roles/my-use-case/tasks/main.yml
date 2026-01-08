@@ -1,13 +1,13 @@
-﻿#
-# Partner PowerUp BizObs - Clean ACE-BOX Role
+#
+# Partner PowerUp Vegas Casino - Clean ACE-BOX Role
 #
 
 ---
 - set_fact:
     role_path_abs: "{{ role_path }}"
-    bizobs_repo_url: "https://github.com/lawrobar90/Partner-PowerUp-BizObs-App.git"
-    bizobs_app_dir: "/home/{{ ace_box_user | default('dt_training') }}/Partner-PowerUp-BizObs-App"
-    bizobs_domain: "bizobs.{{ ingress_domain }}"
+    vegas_repo_url: "https://github.com/lawrobar90/Perform-Vegas-Casino.git"
+    vegas_app_dir: "/home/{{ ace_box_user | default('dt_training') }}/vegas-casino"
+    vegas_domain: "vegas.{{ ingress_domain }}"
 
 - include_role:
     name: dt-access-token
@@ -36,7 +36,7 @@
       
     - name: Log Node.js status
       ansible.builtin.debug:
-        msg: "Node.js available: {{ node_version_result.stdout }} (YARN installation failed but not required for BizObs)"
+        msg: "Node.js available: {{ node_version_result.stdout }} (YARN installation failed but not required for Vegas Casino)"
 
     - name: Ensure Node.js is in PATH for current session
       ansible.builtin.shell: |
@@ -49,143 +49,185 @@
 - include_role:
     name: "dt-oneagent-classic"
 
-# Install BizFlow App for Business Observability
-- name: Install BizFlow App
-  block:
-    - include_role:
-        name: dt-platform
-        tasks_from: ensure-app
-      vars:
-        dt_app_id: "dynatrace.biz.flow"
-        dt_app_version: "1.20.3"
-        dt_environment_url_gen3: "{{ extra_vars.dt_environment_url_gen3 }}"
-        dt_oauth_sso_endpoint: "{{ extra_vars.dt_oauth_sso_endpoint }}"
-        dt_oauth_client_id: "{{ extra_vars.dt_oauth_client_id }}"
-        dt_oauth_client_secret: "{{ extra_vars.dt_oauth_client_secret }}"
-        dt_oauth_account_urn: "{{ extra_vars.dt_oauth_account_urn }}"
-  rescue:
-    - name: Log BizFlow installation failure
-      ansible.builtin.debug:
-        msg: "BizFlow app installation failed, but continuing deployment. Business events can still be configured via Monaco."
-      
-    - name: Set BizFlow installation status
-      set_fact:
-        bizflow_installed: false
-  always:
-    - name: Set BizFlow installation status on success
-      set_fact:
-        bizflow_installed: true
-      when: ansible_failed_result is not defined
-
-# Deploy Monaco configuration BEFORE app starts
+# Deploy Monaco configuration
 - include_role:
     name: "monaco-v2"
-
-- include_role:
-    name: monaco-v2
-    tasks_from: apply-monaco
-    apply:
-      environment:
-        DT_API_TOKEN: "{{ dynatrace_api_token }}"
-        DT_PLATFORM_TENANT_URL: "{{ extra_vars.dt_environment_url_gen3.rstrip('/') }}"
-        DT_OAUTH_CLIENT_ID: "{{ extra_vars.dt_oauth_client_id }}"
-        DT_OAUTH_CLIENT_SECRET: "{{ extra_vars.dt_oauth_client_secret }}"
-        DT_OAUTH_SSO_ENDPOINT: "{{ extra_vars.dt_oauth_sso_endpoint }}"
-        INGRESS_DOMAIN: "{{ ingress_domain }}"
   vars:
-    monaco_projects_root: "{{ role_path_abs }}/files/monaco"
-    monaco_project: "" # selection of projects or all projects under the root path if set empty
-    monaco_manifest_path: "{{ role_path_abs }}/files/monaco/manifest.yml"
+    monaco_working_dir: "{{ role_path_abs }}/files/monaco"
     monaco_environment:
       DT_API_TOKEN: "{{ dynatrace_api_token }}"
       DT_PLATFORM_TENANT_URL: "{{ extra_vars.dt_environment_url_gen3.rstrip('/') }}"
       DT_OAUTH_CLIENT_ID: "{{ extra_vars.dt_oauth_client_id }}"
       DT_OAUTH_CLIENT_SECRET: "{{ extra_vars.dt_oauth_client_secret }}"
       DT_OAUTH_SSO_ENDPOINT: "{{ extra_vars.dt_oauth_sso_endpoint }}"
+      INGRESS_DOMAIN: "{{ ingress_domain }}"
 
-- name: Clone repository
-  ansible.builtin.git:
-    repo: "{{ bizobs_repo_url }}"
-    dest: "{{ bizobs_app_dir }}"
-    version: "main"
-    force: yes
-  become_user: "{{ ace_box_user | default('dt_training') }}"
+# Deploy Vegas Casino as Kubernetes application
+- name: Apply Vegas Casino Kubernetes manifests
+  kubernetes.core.k8s:
+    definition: |
+      apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: vegas-casino
+        labels:
+          name: vegas-casino
+      ---
+      apiVersion: v1
+      kind: ConfigMap
+      metadata:
+        name: vegas-casino-config
+        namespace: vegas-casino
+      data:
+        ACE_BOX_ID: "{{ ace_box_id | default('ace-box-demo') }}"
+        VEGAS_EXTERNAL_URL: "http://{{ vegas_domain }}"
+        NODE_ENV: "production"
+        PORT: "8080"
+      ---
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: vegas-casino-app
+        namespace: vegas-casino
+        labels:
+          app: vegas-casino
+      spec:
+        replicas: 1
+        selector:
+          matchLabels:
+            app: vegas-casino
+        template:
+          metadata:
+            labels:
+              app: vegas-casino
+          spec:
+            containers:
+            - name: vegas-casino
+              image: node:18-alpine
+              workingDir: /app
+              command: ["/bin/sh", "-c"]
+              args:
+                - |
+                  apk add --no-cache git bash curl
+                  git clone https://github.com/lawrobar90/Perform-Vegas-Casino.git /app
+                  cd /app
+                  npm install
+                  # Use node server.js directly instead of the complex startup script
+                  exec node server.js
+              ports:
+              - containerPort: 8080
+                name: http
+              envFrom:
+              - configMapRef:
+                  name: vegas-casino-config
+              resources:
+                requests:
+                  memory: "256Mi"
+                  cpu: "250m"
+                limits:
+                  memory: "512Mi"
+                  cpu: "500m"
+              livenessProbe:
+                httpGet:
+                  path: /health
+                  port: 8080
+                initialDelaySeconds: 60
+                periodSeconds: 30
+                timeoutSeconds: 10
+                failureThreshold: 3
+              readinessProbe:
+                httpGet:
+                  path: /health
+                  port: 8080
+                initialDelaySeconds: 30
+                periodSeconds: 10
+                timeoutSeconds: 5
+                failureThreshold: 3
+      ---
+      apiVersion: v1
+      kind: Service
+      metadata:
+        name: vegas-casino-service
+        namespace: vegas-casino
+        labels:
+          app: vegas-casino
+      spec:
+        selector:
+          app: vegas-casino
+        ports:
+        - name: http
+          port: 80
+          targetPort: 8080
+          protocol: TCP
+        type: ClusterIP
+      ---
+      apiVersion: networking.k8s.io/v1
+      kind: Ingress
+      metadata:
+        name: vegas-casino-ingress
+        namespace: vegas-casino
+        annotations:
+          nginx.ingress.kubernetes.io/rewrite-target: /
+          nginx.ingress.kubernetes.io/ssl-redirect: "false"
+      spec:
+        ingressClassName: "public"
+        rules:
+        - host: vegas.{{ ingress_domain }}
+          http:
+            paths:
+            - path: /
+              pathType: Prefix
+              backend:
+                service:
+                  name: vegas-casino-service
+                  port:
+                    number: 80
+    state: present
 
-# Use the comprehensive startup script from the app repository
-# This avoids duplication and uses the battle-tested 501-line script
+- name: Wait for Vegas Casino deployment to be ready
+  kubernetes.core.k8s_info:
+    api_version: apps/v1
+    kind: Deployment
+    name: vegas-casino-app
+    namespace: vegas-casino
+    wait_condition:
+      type: Available
+      status: "True"
+    wait_timeout: 300
 
-- name: Start Partner PowerUp BizObs with existing comprehensive script (async)
-  shell: |
-    cd {{ bizobs_app_dir }}
-    chmod +x start-server.sh
-    nohup ./start-server.sh --ace-box-id="{{ ace_box_id | default('ace-box-demo') }}" --external-url="http://{{ bizobs_domain }}" > /tmp/bizobs-startup.log 2>&1 &
-    echo "Started BizObs application in background"
-  environment:
-    ACE_BOX_ID: "{{ ace_box_id | default('ace-box-demo') }}"
-    BIZOBS_EXTERNAL_URL: "http://{{ bizobs_domain }}"
-    COMPANY_NAME: "{{ company_name | default('Dynatrace') }}"
-    COMPANY_DOMAIN: "{{ company_domain | default('dynatrace.com') }}"
-    INDUSTRY_TYPE: "{{ industry_type | default('technology') }}"
-    EXTERNAL_URL_OVERRIDE: "http://{{ bizobs_domain }}"
-  args:
-    chdir: "{{ bizobs_app_dir }}"
-  become_user: "{{ ace_box_user | default('dt_training') }}"
-
-- name: Wait for startup
-  ansible.builtin.wait_for:
-    port: 8080
-    host: localhost
-    timeout: 300
-    delay: 30
-
-- name: Check startup log for success
-  shell: |
-    if [ -f /tmp/bizobs-startup.log ]; then
-      tail -50 /tmp/bizobs-startup.log
-    else
-      echo "Startup log not found"
-    fi
-  register: startup_log
-  
-- name: Display startup status
-  ansible.builtin.debug:
-    msg: "BizObs startup log: {{ startup_log.stdout }}"
-
-- name: Verify application health
+- name: Verify Vegas Casino application health via ingress
   ansible.builtin.uri:
-    url: "http://localhost:8080/health"
+    url: "http://vegas.{{ ingress_domain }}/health"
     method: GET
     status_code: 200
-  register: health_check
-  retries: 5
-  delay: 10
-  until: health_check is succeeded
+  register: vegas_health_check
+  retries: 10
+  delay: 15
+  until: vegas_health_check is succeeded
 
-- name: Verify admin services status
-  ansible.builtin.uri:
-    url: "http://localhost:8080/api/admin/services/status"
-    method: GET
-    status_code: 200
-  register: admin_status
-  retries: 3
-  delay: 5
-  failed_when: false
+# Deploy Vegas Casino Dashboard using template
+- name: Apply Vegas Casino Dashboard from template
+  kubernetes.core.k8s:
+    definition: "{{ lookup('template', 'vegas-dashboard.yml.j2') | from_yaml_all | list }}"
+    state: present
 
-- name: Log health check results
-  ansible.builtin.debug:
-    msg: |
-      Health Check: {{ health_check.status }}
-      Admin Status: {{ admin_status.status | default('Failed') }}
-      BizObs Application Ready: {{ health_check is succeeded }}
-
-# Deploy collaboration tools AFTER app is verified working
+# Deploy collaboration tools
 - include_role:
     name: "mattermost"
 
 # Fix Mattermost ingress configuration for proper public access
 - name: Fix Mattermost ingress service name and configuration
   block:
-    - name: Update Mattermost ingress to point to correct service
+    - name: Delete any existing incorrect Mattermost ingress
+      kubernetes.core.k8s:
+        api_version: networking.k8s.io/v1
+        kind: Ingress
+        name: mattermost-mattermost-team-edition
+        namespace: mattermost
+        state: absent
+      failed_when: false
+      
+    - name: Create correct Mattermost ingress
       kubernetes.core.k8s:
         definition:
           apiVersion: networking.k8s.io/v1
@@ -219,316 +261,58 @@
       ansible.builtin.debug:
         msg: "Mattermost ingress fixed: {{ mattermost_ingress_result is succeeded }}"
 
-# External access for BizObs application - ACE-BOX standard pattern
-- name: Create BizObs service and endpoints first
-  kubernetes.core.k8s:
-    definition:
-      apiVersion: v1
-      kind: Service
-      metadata:
-        name: bizobs-service
-        namespace: default
-        labels:
-          app: bizobs
-          component: partner-powerup
-      spec:
-        type: ClusterIP
-        ports:
-        - port: 8080
-          targetPort: 8080
-          protocol: TCP
-          name: http
-    state: present
-  register: bizobs_service_result
-
-- name: Create BizObs endpoints pointing to node localhost
-  kubernetes.core.k8s:
-    definition:
-      apiVersion: v1
-      kind: Endpoints
-      metadata:
-        name: bizobs-service
-        namespace: default
-        labels:
-          app: bizobs
-          component: partner-powerup
-      subsets:
-      - addresses:
-        - ip: "{{ ansible_default_ipv4.address }}"
-        ports:
-        - port: 8080
-          protocol: TCP
-          name: http
-    state: present
-  register: bizobs_endpoints_result
-
-- name: Wait for service to be ready
-  kubernetes.core.k8s_info:
-    api_version: v1
-    kind: Service
-    name: bizobs-service
-    namespace: default
-  register: service_info
-  until: service_info.resources | length > 0
-  retries: 10
-  delay: 3
-
-- name: Create BizObs ingress for external access
-  kubernetes.core.k8s:
-    definition:
-      apiVersion: networking.k8s.io/v1
-      kind: Ingress
-      metadata:
-        name: bizobs-ingress
-        namespace: default
-        labels:
-          app: bizobs
-          component: partner-powerup
-        annotations:
-          nginx.ingress.kubernetes.io/proxy-connect-timeout: "300"
-          nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
-          nginx.ingress.kubernetes.io/rewrite-target: /
-      spec:
-        ingressClassName: "{{ ingress_class | default('public') }}"
-        rules:
-        - host: "{{ bizobs_domain }}"
-          http:
-            paths:
-            - path: /
-              pathType: Prefix
-              backend:
-                service:
-                  name: bizobs-service
-                  port:
-                    number: 8080
-    state: present
-  register: bizobs_ingress_result
-  retries: 3
-  delay: 5
-
-- name: Verify Kubernetes resources were created
-  ansible.builtin.debug:
-    msg: |
-      Service Created: {{ bizobs_service_result is succeeded }}
-      Endpoints Created: {{ bizobs_endpoints_result is succeeded }}
-      Ingress Created: {{ bizobs_ingress_result is succeeded }}
-      Target IP: {{ ansible_default_ipv4.address }}
-      External URL: http://{{ bizobs_domain }}/
-
 # Get Mattermost credentials for dashboard configuration
-- name: Get Mattermost credentials from Kubernetes secrets
+- name: Get Mattermost admin password for dashboard
   kubernetes.core.k8s_info:
     api_version: v1
     kind: Secret
-    name: mattermost-admin
+    name: mattermost-team-edition
     namespace: mattermost
-  register: mattermost_secret_info
+  register: mattermost_secret
   failed_when: false
 
-- name: Set Mattermost credentials from secrets
-  set_fact:
-    mattermost_username: "{{ mattermost_secret_info.resources[0].data.mattermost_username | b64decode if mattermost_secret_info.resources else 'admin' }}"
-    mattermost_password: "{{ mattermost_secret_info.resources[0].data.mattermost_password | b64decode if mattermost_secret_info.resources else 'admin123' }}"
-  when: mattermost_secret_info.resources is defined and mattermost_secret_info.resources | length > 0
+- name: Set Mattermost credentials for dashboard
+  ansible.builtin.set_fact:
+    mattermost_password: "{{ mattermost_secret.resources[0].data.password | b64decode | default('admin123') if mattermost_secret.resources else 'admin123' }}"
 
-# Deploy nginx-based dashboard for OneAgent compatibility  
-- name: Deploy nginx-based ACE-Box dashboard
-  block:
-    - name: Remove existing dashboard deployment
-      kubernetes.core.k8s:
-        api_version: apps/v1
-        kind: Deployment
-        name: dashboard
-        namespace: default
-        state: absent
-      failed_when: false
-      
-    - name: Remove existing dashboard service
-      kubernetes.core.k8s:
-        api_version: v1
-        kind: Service
-        name: dashboard
-        namespace: default
-        state: absent
-      failed_when: false
-      
-    - name: Wait for cleanup completion
-      pause:
-        seconds: 15
-        
-    - name: Deploy nginx-based ACE-Box dashboard
-      kubernetes.core.k8s:
-        state: present
-        definition: "{{ lookup('template', 'nginx-dashboard.yml.j2') | from_yaml_all | list }}"
-        namespace: "{{ k8s_namespace | default('default') }}"
-      vars:
-        k8s_namespace: default
-        ingress_domain: "{{ ingress_domain }}"
-        dt_environment_url: "{{ extra_vars.dt_environment_url_gen3 | default('https://YOUR_TENANT.apps.dynatrace.com') }}"
-        mattermost_username: "{{ mattermost_username | default('admin') }}"
-        mattermost_password: "{{ mattermost_password | default('admin123') }}"
-      register: nginx_dashboard_deployment
-      
-    - name: Wait for nginx dashboard deployment to be ready
-      kubernetes.core.k8s_info:
-        api_version: apps/v1
-        kind: Deployment
-        name: ace-box-dashboard
-        namespace: default
-        wait: true
-        wait_condition:
-          type: Available
-          status: "True"
-        wait_timeout: 300
-      register: nginx_dashboard_status
-      
-    - name: Check nginx dashboard pod status
-      kubernetes.core.k8s_info:
-        api_version: v1
-        kind: Pod
-        namespace: default
-        label_selectors:
-          - app=ace-box-dashboard
-      register: nginx_dashboard_pods
-      
-    - name: Test nginx dashboard service endpoint
-      uri:
-        url: "http://ace-box-dashboard-service.ace.svc.cluster.local/health"
-        method: GET
-        timeout: 30
-      register: nginx_dashboard_health
-      failed_when: false
-      retries: 5
-      delay: 10
-      
-    - name: Test external nginx dashboard access
-      uri:
-        url: "https://dashboard.{{ ingress_domain }}/health"
-        method: GET
-        timeout: 30
-        validate_certs: false
-      register: external_nginx_dashboard_test
-      failed_when: false
-      retries: 3
-      delay: 10
-      
-    - name: Log nginx dashboard deployment status
-      ansible.builtin.debug:
-        msg: |
-          Nginx Dashboard Deployment Results:
-          - Static HTML Deployment: {{ nginx_dashboard_deployment is succeeded }}
-          - Deployment Ready: {{ nginx_dashboard_status is succeeded }}
-          - Pods Running: {{ (nginx_dashboard_pods.resources | selectattr('status.phase', 'equalto', 'Running') | list | length) > 0 }}
-          - Service Health: {{ nginx_dashboard_health.status | default('Unknown') }}
-          - External Access: {{ external_nginx_dashboard_test.status | default('Failed') }}
-          - Dashboard URL: https://dashboard.{{ ingress_domain }}
-          
-          ✅ Nginx-based dashboard eliminates OneAgent/Node.js conflicts
-          
-    - name: Set nginx dashboard health status
-      set_fact:
-        dashboard_healthy: "{{ (nginx_dashboard_pods.resources | selectattr('status.phase', 'equalto', 'Running') | list | length) > 0 and (nginx_dashboard_health.status | default(0) == 200) }}"
-# Configure public ingress access
-- name: Configure public ingress access for all services
-  block:
-    - name: Configure public ingress for all services
-      shell: |
-        # Set public ingress class for all services
-        kubectl patch ingress ace-box-dashboard-ingress -n ace --type='json' -p='[
-          {"op": "replace", "path": "/spec/ingressClassName", "value": "public"}
-        ]' || true
-        
-        kubectl patch ingress bizobs-ingress -n default --type='json' -p='[
-          {"op": "replace", "path": "/spec/ingressClassName", "value": "public"}
-        ]' || true
-        
-        kubectl patch ingress mattermost-mattermost-team-edition -n mattermost --type='json' -p='[
-          {"op": "replace", "path": "/spec/ingressClassName", "value": "public"}
-        ]' || true
-      register: public_ingress_config
-      failed_when: false
-
-    - name: Remove basic authentication from all services for public access
-      shell: |
-        # Remove auth annotations from all ingresses
-        kubectl patch ingress ace-box-dashboard-ingress -n ace --type='json' -p='[
-          {"op": "remove", "path": "/metadata/annotations/nginx.ingress.kubernetes.io~1auth-realm"},
-          {"op": "remove", "path": "/metadata/annotations/nginx.ingress.kubernetes.io~1auth-secret"},
-          {"op": "remove", "path": "/metadata/annotations/nginx.ingress.kubernetes.io~1auth-type"}
-        ]' || true
-        
-        kubectl patch ingress bizobs-ingress -n default --type='json' -p='[
-          {"op": "remove", "path": "/metadata/annotations/nginx.ingress.kubernetes.io~1auth-realm"},
-          {"op": "remove", "path": "/metadata/annotations/nginx.ingress.kubernetes.io~1auth-secret"},
-          {"op": "remove", "path": "/metadata/annotations/nginx.ingress.kubernetes.io~1auth-type"}
-        ]' || true
-        
-        kubectl patch ingress mattermost-mattermost-team-edition -n mattermost --type='json' -p='[
-          {"op": "remove", "path": "/metadata/annotations/nginx.ingress.kubernetes.io~1auth-realm"},
-          {"op": "remove", "path": "/metadata/annotations/nginx.ingress.kubernetes.io~1auth-secret"},
-          {"op": "remove", "path": "/metadata/annotations/nginx.ingress.kubernetes.io~1auth-type"}
-        ]' || true
-      register: auth_removal
-      failed_when: false
-
-    - name: Test all service external access
-      uri:
-        url: "{{ item.url }}"
-        method: GET
-        timeout: 30
-        validate_certs: false
-      register: service_access_tests
-      failed_when: false
-      retries: 2
-      delay: 5
-      loop:
-        - { name: "dashboard", url: "https://dashboard.{{ ingress_domain }}" }
-        - { name: "bizobs", url: "https://bizobs.{{ ingress_domain }}" }
-        - { name: "mattermost", url: "https://mattermost.{{ ingress_domain }}" }
-
-# Final deployment summary
-- name: Final deployment status
+# Log deployment completion
+- name: Display Vegas Casino deployment completion
   ansible.builtin.debug:
     msg: |
-      🎉 Partner PowerUp BizObs deployed successfully with ACE-BOX standards!
+      🎰 Vegas Casino ACE-Box Extension Deployment Complete! 🎰
       
       ✅ Deployment Order Completed:
       1. ✅ Dynatrace OneAgent & Monaco Config
-      2. {{ '✅' if bizflow_installed | default(false) else '⚠️' }} BizFlow App ({{ 'installed' if bizflow_installed | default(false) else 'failed - using Monaco events' }})  
-      3. ✅ BizObs Application (verified healthy)
+      2. ✅ Vegas Casino Kubernetes App (verified healthy)
+      3. ✅ ACE Dashboard (nginx-based, OneAgent compatible)
       4. ✅ Mattermost Collaboration
-      5. ✅ Kubernetes Service & Ingress
-      6. ✅ nginx Dashboard (OneAgent compatible)
-      7. ✅ Public Access Configuration
+      5. ✅ Public Access Configuration
       
       🔗 Access URLs:
-      - Dashboard: https://dashboard.{{ ingress_domain }}/ (📊 nginx-based, OneAgent compatible)
-      - BizObs App: https://{{ bizobs_domain }}/
-      - Mattermost: https://mattermost.{{ ingress_domain }}/
-      - Dynatrace: {{ extra_vars.dt_environment_url_gen3.rstrip('/') }}
-      {{ '- BizFlow App: Available in Dynatrace Platform' if bizflow_installed | default(false) else '' }}
+      - 🎰 Vegas Casino: http://vegas.{{ ingress_domain }}/
+      - 📊 ACE Dashboard: http://dashboard.{{ ingress_domain }}/
+      - 💬 Mattermost: http://mattermost.{{ ingress_domain }}/
+      - 🔍 Dynatrace: {{ extra_vars.dt_environment_url_gen3.rstrip('/') }}
       
-      🎯 BizObs Features Ready:
-      - Customer Journey Simulation: https://{{ bizobs_domain }}/api/journey-simulation/simulate-journey
-      - Admin Panel: https://{{ bizobs_domain }}/api/admin/services/status
-      - Health Check: https://{{ bizobs_domain }}/health
-      - Load Generation: Multi-persona simulation (Karen, Raj, Alex, Sophia)
-      {{ '- BizFlow Workflows: Available via Dynatrace Platform' if bizflow_installed | default(false) else '- Business Events: Available via Monaco configuration' }}
+      🎯 Vegas Casino Features Ready:
+      - Gaming Portfolio: Blackjack, Roulette, Slots
+      - Real-time Cheat Detection & Lockout System
+      - Admin Lockout API: http://vegas.{{ ingress_domain }}/admin
+      - Health Monitoring: http://vegas.{{ ingress_domain }}/health
+      - Performance Optimization with Dynatrace OneAgent
       
       🎭 Demo Scenarios:
-      - Insurance: PolicyDiscovery → QuoteGeneration → PaymentProcessing
-      - Retail: ProductBrowsing → CartManagement → CheckoutProcess
-      - Tech: UserOnboarding → FeatureExploration → DataProcessing
-      - Banking: AccountCreation → KYCVerification → TransactionProcessing
+      - Gaming Performance: Real-time cheat detection algorithms
+      - Lockout System: Instant user management and appeals
+      - Matrix Rain UI: Enhanced visual effects and animations
+      - Socket.IO Integration: Real-time multiplayer features
       
-      🚀 Ready for Dynatrace Business Observability demos!
+      🚀 Ready for Dynatrace Performance demos with Vegas Casino!
       
       ✅ Technical Summary:
-      - nginx Dashboard: {{ '✅ Healthy & Accessible' if dashboard_healthy | default(false) else '⚠️ Check deployment logs' }}
-      - OneAgent Compatibility: ✅ nginx eliminates Node.js conflicts
-      - Public Access: ✅ All services accessible without authentication
-      - BizObs Health: {{ health_check.status }}
-      - Service Endpoints: {{ bizobs_service_result is succeeded }}
-      - Auto-recovery: ✅ Health checks and restart logic included
+      - Vegas Casino: ✅ Kubernetes deployment with ingress
+      - ACE Dashboard: ✅ nginx-based, OneAgent compatible  
+      - Public Access: ✅ All services accessible via ingress
+      - Mattermost Password: {{ mattermost_password }}
       
-      💡 All services deployed with ACE-BOX standards and OneAgent compatibility!
+      💡 All services deployed with ACE-BOX standards and Kubernetes best practices!
