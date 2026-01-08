@@ -61,9 +61,6 @@ data:
                             <li class="tab-nav__item">
                                 <button class="tab-nav__link" data-tab="vegas-app">Vegas Application</button>
                             </li>
-                            <li class="tab-nav__item">
-                                <button class="tab-nav__link" data-tab="mattermost">Mattermost</button>
-                            </li>
                         </ul>
                         
                         <div class="tab-content is-active" id="dynatrace">
@@ -91,31 +88,6 @@ data:
                                     <li><a href="http://vegas.{{ ingress_domain }}/" target="_blank" rel="noreferrer">🎰 Main Casino</a></li>
                                     <li><a href="http://vegas.{{ ingress_domain }}/health" target="_blank" rel="noreferrer">❤️ Health Check</a></li>
                                     <li><a href="http://vegas.{{ ingress_domain }}/admin" target="_blank" rel="noreferrer">🔒 Admin Lockout System</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="tab-content" id="mattermost">
-                            <div class="service-info">
-                                <h3>💬 Mattermost Collaboration</h3>
-                                <p><strong>Mattermost</strong> is our team collaboration platform. You can use it for demo coordination, sharing insights, and communicating during the business observability demonstrations.</p>
-                                
-                                <div class="credential-box">
-                                    <h4>🔐 Login Credentials</h4>
-                                    <div class="credential-item">
-                                        <strong>Username:</strong> <code class="credential-value">{{ mattermost_username | default('admin') }}</code>
-                                    </div>
-                                    <div class="credential-item">
-                                        <strong>Password:</strong> <code class="credential-value">{{ mattermost_password | default('admin123') }}</code>
-                                    </div>
-                                    <p class="security-note">
-                                        <em>⚠️ Note: These are the actual deployed credentials for your Mattermost instance.</em>
-                                    </p>
-                                </div>
-                                
-                                <h4>Quick Access</h4>
-                                <ul class="link-list">
-                                    <li><a href="http://mattermost.{{ ingress_domain }}/" target="_blank" rel="noreferrer">🌐 Open Mattermost</a></li>
-                                    <li><a href="http://mattermost.{{ ingress_domain }}/login" target="_blank" rel="noreferrer">🔑 Direct Login</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -152,14 +124,6 @@ data:
                             
                             <dt>Vegas Casino Application</dt>
                             <dd><a href="http://vegas.{{ ingress_domain }}/" target="_blank" rel="noreferrer">Performance demo gaming application</a></dd>
-                            
-                            <dt>Mattermost</dt>
-                            <dd>
-                                <a href="http://mattermost.{{ ingress_domain }}/" target="_blank" rel="noreferrer">Team collaboration platform</a>
-                                <div style="margin-top: 0.5rem; padding: 0.5rem; background-color: var(--color-background-subtle); border-radius: 4px;">
-                                    <small><strong>Login:</strong> {{ mattermost_username | default('admin') }} / {{ mattermost_password | default('admin123') }}</small>
-                                </div>
-                            </dd>
                         </dl>
                     </div>
                 </div>
@@ -509,12 +473,6 @@ spec:
           value: "{{ extra_vars.dt_environment_url_gen3 | default('https://YOUR_TENANT.apps.dynatrace.com') }}"
         - name: VEGAS_URL
           value: "http://vegas.{{ ingress_domain | default('localhost') }}"
-        - name: MATTERMOST_URL
-          value: "http://mattermost.{{ ingress_domain | default('localhost') }}"
-        - name: MATTERMOST_USERNAME
-          value: "{{ mattermost_username | default('admin') }}"
-        - name: MATTERMOST_PASSWORD
-          value: "{{ mattermost_password | default('admin123') }}"
       volumes:
       - name: dashboard-content
         configMap:
