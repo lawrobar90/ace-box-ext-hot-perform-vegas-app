@@ -19,7 +19,7 @@ This lab will show you how to *create* and *validate* **business rules**.
 1.	*Click* on "**Add trigger**"
 1.	For "**Data source**", *select* "**Response - Body**"
 1.	For "**Operator**", *select* "**exists**"
-1.	For "**Value**", *copy* and *paste*:
+1.	For "**Path**", *copy* and *paste*:
       ```
       json.Game
       ```
