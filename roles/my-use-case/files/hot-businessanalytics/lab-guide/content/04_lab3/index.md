@@ -133,10 +133,6 @@ CustomerName
      ```
      Vegas Cheating - BetAmount
      ```
-1.   Change the *Field Extraction*, *copy* and *paste*:
-     ```
-      json.BetAmount
-     ```
 1.   Change the *Metric key*, *copy* and *paste*:
      ```
      log.cheat_BetAmount
