@@ -31,9 +31,9 @@ vegas-casino/vegas-cheat-logs/*.log
 1. *Create* a "**+ pipeline**"
 1. *Rename* the pipeline:
 
-      ```
-      Vegas Cheat Logs to BizEvents
-      ```
+```
+Vegas Cheat Logs to BizEvents
+```
 
 ### 3.3 OpenPipeline Processing Rule Configuration
 
@@ -41,38 +41,38 @@ vegas-casino/vegas-cheat-logs/*.log
 1.	From the processor dropdown menu, *Select* "**DQL**" 
 1.	*Name* the new processor, *copy* and *paste*:
 
-      ```
-      JSON Log parser
-      ```
+```
+JSON Log parser
+```
 
 1.	For "**Matching condition**", leave set to **true**
 1.	For "**DQL processor definition**", *copy* and *paste*:
 
-      ```
-     parse content, "JSON:json"
-     | fieldsFlatten json
-      ```
+```
+parse content, "JSON:json"
+| fieldsFlatten json
+```
 
 ### 3.4 Create a Business Event
 1.	*Access* the "**Data extraction**" tab
 1.	From the processor dropdown menu, *Select* "**Business event**" 
 1.	*Name* the new processor, *copy* and *paste*:
 
-      ```
-      Cheating Attempt
-      ```
+```
+Cheating Attempt
+```
 1.	For "**Matching condition**", *copy* and *paste*:
-      ```
-     matchesPhrase(content, "cheat_active\":true")
-      ```
+```
+matchesPhrase(content, "cheat_active\":true")
+```
 1.   For the "**Event Type**" select *Static string*, then *copy* and *paste*:
-     ```
-     CheatFound
-     ```
+```
+CheatFound
+```
 1.   For the "**Event provider**" select *Field Name*, then *copy* and *paste*:
-     ```
-     json.game
-     ```
+```
+json.game
+```
 1.   For "**Field extraction**" leave as *Extrace all fields*.
 1.   *Click* "**Save**" so you don't lose this config
 
@@ -82,49 +82,49 @@ vegas-casino/vegas-cheat-logs/*.log
 1.   From the processor dropdown menu, *Select* "**Value Metric**"
 1.   *Name* the new processor, *copy* and *paste*:
 
-      ```
-      Vegas Cheating - WinAmount
-      ```
+```
+Vegas Cheating - WinAmount
+```
 1.   For "**Matching condition**", leave set to **true**
 1.   For the "**Metric Key**", then *copy* and *paste*:
-     ```
-     log.cheat_WinAmount
-     ```
+```
+log.cheat_WinAmount
+```
 1.   For the "**Dimensions**", *select* "**custom**"
 1.   In the *Field name on record*,*copy* and *paste*:
-     ```
-     json.cheatType
-     ```
+```
+json.cheatType
+```
 1.   In the *Dimension name*, *copy* and *paste*:
-     ```
-     cheatType
-     ``` 
+```
+cheatType
+``` 
 1.   *Click* on "**Add Dimension**"
 1.   Do the same for these other 2 dimensions:
 ##### Field name on record:
 
-     ```
-     json.game
-     ```
+```
+json.game
+```
      
 ##### Dimension name
 
-     ```
-     Game
-     ```
+```
+Game
+```
      
 ##### *Click* on "**Add Dimension**"
 ##### Field name on record:
 
-     ```
-     json.CustomerName
-     ```
+```
+json.CustomerName
+```
      
 ##### Dimension name
 
-     ```
-     CustomerName
-     ```
+```
+CustomerName
+```
      
 ##### *Click* on "**Add Dimension**"
 
