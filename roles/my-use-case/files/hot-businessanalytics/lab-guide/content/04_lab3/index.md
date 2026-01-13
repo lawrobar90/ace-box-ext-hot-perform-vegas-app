@@ -69,9 +69,9 @@ matchesPhrase(content, "cheat_active\":true")
 ```
 CheatFound
 ```
-1.   For the "**Event provider**" select *Field Name*, then *copy* and *paste*:
+1.   For the "**Event provider**" select *Static string*, then *copy* and *paste*:
 ```
-json.game
+Vegas Casino Fraud Detection
 ```
 1.   For "**Field extraction**" leave as *Extrace all fields*.
 1.   *Click* "**Save**" so you don't lose this config
