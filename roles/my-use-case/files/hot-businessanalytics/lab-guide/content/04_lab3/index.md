@@ -102,23 +102,30 @@ vegas-casino/vegas-cheat-logs/*.log
 1.   *Click* on "**Add Dimension**"
 1.   Do the same for these other 2 dimensions:
 ##### Field name on record:
+
      ```
      json.game
      ```
+     
 ##### Dimension name
+
      ```
      Game
      ```
      
 ##### *Click* on "**Add Dimension**"
 ##### Field name on record:
+
      ```
      json.CustomerName
      ```
+     
 ##### Dimension name
+
      ```
      CustomerName
      ```
+     
 ##### *Click* on "**Add Dimension**"
 
 1.   Click the 3 vertical buttons on your "**Vegas Cheating - WinAmount**" metric, and select "**Duplicate**"
