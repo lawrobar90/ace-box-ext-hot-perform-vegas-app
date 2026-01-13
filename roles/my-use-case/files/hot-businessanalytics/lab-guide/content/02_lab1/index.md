@@ -26,7 +26,7 @@ This lab will show you how to *create* and *validate* **business rules**.
 
 ##### Configure metadata (Event Provider)
 
-1.	For "**Event provider Data Source**", *click* on "**Fixed value**" and make sure that "**Response - Body**" is *selected*
+1.	For "**Event provider Data Source**", *click* on "**Fixed value**" and make sure that "**Request - Body**" is *selected*
 1.	For "**Field name**" and "**Path**", *copy* and *paste*:
       ```
       Game
