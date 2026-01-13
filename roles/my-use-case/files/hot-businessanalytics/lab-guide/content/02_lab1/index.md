@@ -105,3 +105,14 @@ This lab will show you how to *create* and *validate* **business rules**.
       | filter not(matchesphrase(rsBody, "healthy"))
       | sort timestamp desc 
       ```
+
+### The Request and Response body are filled with valuable data, but it's still in JSON format ###
+1. Change your DQL to this now:
+     ```
+     fetch bizevents
+      | filter not(matchesphrase(rsBody, "healthy"))
+      | sort timestamp desc
+      | parse rqBody, "JSON:json"
+      | fieldsFlatten json
+     ```
+ ### Now this is great for a dashboard, but let's automate this parsing rule instead ###
