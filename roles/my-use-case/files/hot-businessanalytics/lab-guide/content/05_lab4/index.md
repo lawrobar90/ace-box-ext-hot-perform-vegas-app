@@ -40,7 +40,7 @@ In this hands-on, we’ll be setting up this process using some existing buildin
    ```
    /api/admin/lockout-user-cheat
    ```
-Your result should look like this - *https://vegas.841aedbc-af37-4e1b-a45d-ada915bf7498.dynatrace.training/api/admin/lockout-user-cheat*
+1. Your result should look like this - *https://vegas.841aedbc-af37-4e1b-a45d-ada915bf7498.dynatrace.training/api/admin/lockout-user-cheat*
 
 1. In the "**Payload**", *copy* and *paste*:
    ```
