@@ -74,7 +74,7 @@ This lab will show you how to "**Process**" and "**Extract**" your business data
 1.    For "**Dimensions**" select **custom**, *copy* and *paste*:
 1.    Field name on record:
       ```
-      json.Game
+      requestJSON.Game : Game
       ```   
 1.    Dimension name:
       ```
@@ -83,24 +83,24 @@ This lab will show you how to "**Process**" and "**Extract**" your business data
 1.   Click "**Add dimension**" on the right hand side.
 1.   Now, do the same for these other fields:
       ```
-      json.CheatType 
+      requestJSON.CheatType 
       ``` 
       ```
-      json.CustomerName
+      requestJSON.CustomerName
       ``` 
       ```
-      json.CheatActive
+      requestJSON.CheatActive
       ```
-1.   Click the 3 vertical buttons on your "**BetAmount**" metric, and select "**Duplicate**"
-1.   Change the "**Name**", *copy* and *paste*:
+1.   Add a new Value Metric
+1.   *Name* the new Value metric, *copy* and *paste*:
       ```
       WinAmount
       ```
-1.   Change the "**Matching Condition**", *copy* and *paste*:
+1.   For "**Matching Condition**", *copy* and *paste*:
       ```
       isNotNull(resultJSON.winAmount)
       ```
-1.   Change the "**Field extraction Condition**", *copy* and *paste*:
+1.   For "**Field extraction Condition**", *copy* and *paste*:
       ```
       resultJSON.winAmount
       ```      
@@ -108,6 +108,27 @@ This lab will show you how to "**Process**" and "**Extract**" your business data
       ```
       bizevents.vegas.winAmount
       ```         
+1.    For "**Dimensions**" select **custom**, *copy* and *paste*:
+1.    Field name on record:
+      ```
+      requestJSON.Game : Game
+      ```   
+1.    Dimension name:
+      ```
+      resultJSON.Game
+      ```   
+1.   Click "**Add dimension**" on the right hand side.
+1.   Now, do the same for these other fields:
+      ```
+      resultJSON.CheatType 
+      ``` 
+      ```
+      resultJSON.CustomerName
+      ``` 
+      ```
+      resultJSON.CheatActive
+      ```
+
 **At the top right of the screen, click "*Save*"**
 
 
@@ -143,10 +164,16 @@ This lab will show you how to "**Process**" and "**Extract**" your business data
 1.	From the menu, *open* "**Notebooks**"
 1.	*Click* on the "**+**" to add a new section
 1.	*Click* on "**DQL**"
-1.	*Copy* and *paste* the **query** - Change the **Game** to the one you are testing with surrounded by quotation marks:
+1.	*Copy* and *paste* the **query** :
 
       ```
       fetch bizevents
       | filter not(matchesphrase(rsBody, "healthy"))
       | sort timestamp desc
       ```
+
+1.	*Click* on the "**+**" to add a new section
+1.	*Click* on "**Metrics**"
+1.	Select the metrics you just created and split by thew dimensions
+1.    What this will show is the betAmount where you can easily split by Game, CheatActive and other dimensions
+
