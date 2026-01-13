@@ -98,11 +98,11 @@ This lab will show you how to "**Process**" and "**Extract**" your business data
       ```
 1.   Change the "**Matching Condition**", *copy* and *paste*:
       ```
-      isNotNull(json.WinningAmount)
+      isNotNull(json.winAmount)
       ```
 1.   Change the "**Field extraction Condition**", *copy* and *paste*:
       ```
-      json.WinningAmount
+      json.winAmount
       ```      
 1.   Change the "**Metric key**", *copy* and *paste*:
       ```
