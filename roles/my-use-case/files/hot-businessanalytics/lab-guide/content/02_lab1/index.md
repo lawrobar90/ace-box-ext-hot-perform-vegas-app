@@ -102,5 +102,6 @@ This lab will show you how to *create* and *validate* **business rules**.
 
       ```
       fetch bizevents
-      | filter matchesPhrase(event.provider, "Vegas") 
+      | filter not(matchesphrase(rsBody, "healthy"))
+      | sort timestamp desc 
       ```
