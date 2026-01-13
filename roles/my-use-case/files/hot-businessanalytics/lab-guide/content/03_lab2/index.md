@@ -28,8 +28,8 @@ This lab will show you how to "**Process**" and "**Extract**" your business data
 1.	For "**DQL processor definition**", *copy* and *paste*:
 
       ```
-      parse rqBody, "JSON:json"
-      | fieldsFlatten json
+     parse rqBody, "JSON:requestJSON"
+     | fieldsFlatten requestJSON
       ```
 
 1.    Add another processor
@@ -44,8 +44,8 @@ This lab will show you how to "**Process**" and "**Extract**" your business data
 1.	For "**DQL processor definition**", *copy* and *paste*:
 
       ```
-      parse rsBody, "JSON:json"
-      | fieldsFlatten json
+      parse rsBody, "JSON:resultJSON"
+      | fieldsFlatten resultJSON
       ```
 ### 1.3 OpenPipeline Metrics Extraction
 
@@ -59,12 +59,12 @@ This lab will show you how to "**Process**" and "**Extract**" your business data
 1.	For "**Matching condition**", *copy* and *paste*:
 
       ```
-      isnotnull(json.BetAmount)
+      isnotnull(requestJSON.BetAmount)
       ```
 1.	For "**Field Extraction**", *copy* and *paste*:
 
       ```
-      json.BetAmount
+      requestJSON.BetAmount
       ```      
 1.	For "**Metric key**", *copy* and *paste*:
 
@@ -98,11 +98,11 @@ This lab will show you how to "**Process**" and "**Extract**" your business data
       ```
 1.   Change the "**Matching Condition**", *copy* and *paste*:
       ```
-      isNotNull(json.winAmount)
+      isNotNull(resultJSON.winAmount)
       ```
 1.   Change the "**Field extraction Condition**", *copy* and *paste*:
       ```
-      json.winAmount
+      resultJSON.winAmount
       ```      
 1.   Change the "**Metric key**", *copy* and *paste*:
       ```
