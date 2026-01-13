@@ -124,7 +124,7 @@ This lab will show you how to "**Process**" and "**Extract**" your business data
 1. For "**Matching condition**", *copy* and *paste*:
 
       ```
-      matchesPhrase(event.provider, "Vegas ")
+      isnotnull(event.provider)
       ```
 
 1. For "**Pipeline**", *select* "**Vegas Pipeline**"
@@ -146,6 +146,7 @@ This lab will show you how to "**Process**" and "**Extract**" your business data
 1.	*Copy* and *paste* the **query** - Change the **Game** to the one you are testing with surrounded by quotation marks:
 
       ```
-      Fetch Bizevents
-      | filter json.Game == "**game Name**"
+      fetch bizevents
+      | filter not(matchesphrase(rsBody, "healthy"))
+      | sort timestamp desc
       ```
