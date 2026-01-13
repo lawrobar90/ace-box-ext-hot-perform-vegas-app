@@ -14,20 +14,19 @@ In this hands-on, we’ll be setting up this process using some existing buildin
 1. In the "**DQL query section**", *copy* and *paste*:
    ```
    fetch bizevents, from:now()-5m
-      | filter json.cheat_active == true
-      | filter isNotNull(json.winAmount)
-      | fields timestamp,
-             json.CustomerName, 
-             json.cheatType,
-             json.winAmount,
-             json.Balance,
-             json.CorrelationId,
-             json.DetectionRisk,
-             json.requires_investigation,
-             json.BetAmount,
-             json.multiplier,
-             json.cheat_active,
-             json.result, dt.openpipeline.pipelines
+   | filter event.provider == "Vegas Casino Fraud Detection"
+   | fields timestamp,
+          json.CustomerName, 
+          json.cheatType,
+          json.winAmount,
+          json.Balance,
+          json.CorrelationId,
+          json.DetectionRisk,
+          json.requires_investigation,
+          json.BetAmount,
+          json.multiplier,
+          json.cheat_active,
+          json.result, dt.openpipeline.pipelines
    ```
 1. Click the *+* underneath the *get_cheaters* step, and choose "**HTTP Request**"
 1. Change the name of this step, *copy* and *paste*:
@@ -51,11 +50,11 @@ In this hands-on, we’ll be setting up this process using some existing buildin
    create_bizevents_for_lockouts
    ```
 1. In the "**Source code**", *copy* and *paste*:
-   ```js
-  import { execution } from '@dynatrace-sdk/automation-utils';
-  import { businessEventsClient } from '@dynatrace-sdk/client-classic-environment-v2';
+  ```js
+import { execution } from '@dynatrace-sdk/automation-utils';
+import { businessEventsClient } from '@dynatrace-sdk/client-classic-environment-v2';
 
-  export default async function ({ execution_id }) {
+export default async function ({ execution_id }) {
   const stepName = "lock_user";
 
   // Fetch lock_user result
@@ -103,8 +102,8 @@ In this hands-on, we’ll be setting up this process using some existing buildin
     summary: lockResult?.summary || {}
   };
 }
+```
 
-      ```
 1.   *Click* "**Depoloy**", and *Run* the workflow to test it works.
 1.   You will see Customers who are cheating, but likely will not see your name yet.
 
