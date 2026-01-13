@@ -3,6 +3,8 @@
 In this hands-on, we’ll be setting up this process using some existing building blocks! You will be capturing cheat logs, then using automation you will reduce the risk and increase revenue for your casino. 
 
 ### 4.1 Locking the users out
+1. Using the “**App drawer**” in the top-left of the screen (or the search) – *find* the "**Setting Classic**" app and *open* it.
+1. *Scroll down* to "**Preferences**" and *click* "**Limite outbound connections**"
 1. Using the “**App drawer**” in the top-left of the screen (or the search) – *find* the "**Workflows**" app and *open* it.
 1. *Click* "**+ Workflow**"
 1. In the first step, select "**On demand trigger**"
@@ -34,10 +36,12 @@ In this hands-on, we’ll be setting up this process using some existing buildin
    lock_user
    ```
 1. In the "**Method**", Select *POST*
-1. In the "**URL **", *copy* and *paste*:
+1. In the "**URL **", take the URL of the "**Vegas Casino App**", then add this to the end:
    ```
-   http://3.209.41.33:8080/api/admin/lockout-user-cheat
+   /api/admin/lockout-user-cheat
    ```
+Your result should look like this - "**https://vegas.841aedbc-af37-4e1b-a45d-ada915bf7498.dynatrace.training/api/admin/lockout-user-cheat**"
+
 1. In the "**Payload**", *copy* and *paste*:
    ```
    {
