@@ -86,10 +86,6 @@ vegas-casino/vegas-cheat-logs/*.log
       Vegas Cheating - WinAmount
       ```
 1.   For "**Matching condition**", leave set to **true**
-1.   For the "**Field extraction**", *copy* and *paste*:
-     ```
-     json.winAmount
-     ```
 1.   For the "**Metric Key**", then *copy* and *paste*:
      ```
      log.cheat_WinAmount
