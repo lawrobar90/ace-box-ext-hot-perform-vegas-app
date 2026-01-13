@@ -12,7 +12,7 @@
 - include_role:
     name: dt-access-token
   vars:
-    access_token_var_name: "monaco_cleanup_api_token"
+    access_token_var_name: "dynatrace_api_token"
     access_token_scope: ["ReadConfig", "WriteConfig", "events.ingest", "settings.read", "settings.write", "metrics.ingest", "openTelemetryTrace.ingest", "logs.ingest"]
 
 - include_role:
