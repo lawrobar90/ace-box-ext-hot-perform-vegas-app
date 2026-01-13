@@ -75,7 +75,7 @@ export default async function ({ execution_id }) {
     .filter(r => r.success)
     .map((r, i) => ({
       id: `vegas-lock-${r.username}-${Date.now()}-${i}`,
-      "event.provider": "vegas-casino-fraud-detection",
+      "event.provider": "vegas-casino-fraud-prevention",
       "event.type": "CheatReimbursed",
       user_locked: true,
       customer_name: r.username,
@@ -134,7 +134,7 @@ export default async function ({ execution_id }) {
 1. Add a new DQL, *copy* and *paste*:
       ```
       fetch bizevents
-      | filter event.provider == "vegas-casino-fraud-detection"
+      | filter event.provider == "vegas-casino-fraud-prevention"
       | sort timestamp desc
       | fields timestamp,
             cheat_violations,
