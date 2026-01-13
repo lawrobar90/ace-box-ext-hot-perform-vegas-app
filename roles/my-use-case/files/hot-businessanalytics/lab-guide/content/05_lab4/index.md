@@ -36,17 +36,15 @@ In this hands-on, we’ll be setting up this process using some existing buildin
    lock_user
    ```
 1. In the "**Method**", Select *POST*
-1. In the "**URL **", take the URL of the "**Vegas Casino App**", then add this to the end:
+1. In the "**URL**", take the URL of the "**Vegas Casino App**", then add this to the end:
    ```
    /api/admin/lockout-user-cheat
    ```
-Your result should look like this - "**https://vegas.841aedbc-af37-4e1b-a45d-ada915bf7498.dynatrace.training/api/admin/lockout-user-cheat**"
+Your result should look like this - *https://vegas.841aedbc-af37-4e1b-a45d-ada915bf7498.dynatrace.training/api/admin/lockout-user-cheat*
 
 1. In the "**Payload**", *copy* and *paste*:
    ```
-   {
-        "cheatRecords": {{ result('get_cheaters').records }}
-   }   
+   {{ result("get_cheaters")["records"] | to_json }}
    ```
 1. Click the *+* underneath the *lock_user* step, and choose "**Run JavaScript**"
 1. Change the name of this step, *copy* and *paste*:
