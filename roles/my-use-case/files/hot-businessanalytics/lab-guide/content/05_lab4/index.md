@@ -21,20 +21,24 @@ It should looke like the below
    ```
 1. In the "**DQL query section**", *copy* and *paste*:
    ```
-   fetch bizevents, from:now()-5m
+   fetch bizevents, from:now()-15m
    | filter event.provider == "Vegas Casino Fraud Detection"
    | fields timestamp,
-          json.CustomerName, 
-          json.cheatType,
-          json.winAmount,
-          json.Balance,
-          json.CorrelationId,
-          json.DetectionRisk,
-          json.requires_investigation,
-          json.BetAmount,
-          json.multiplier,
-          json.cheat_active,
-          json.result, dt.openpipeline.pipelines
+       event.provider,
+       event.type,
+       json.game,
+       json.CustomerName, 
+       json.cheatType,
+       json.winAmount,
+       json.Balance,
+       json.CorrelationId,
+       json.DetectionRisk,
+       json.requires_investigation,
+       json.BetAmount,
+       json.multiplier,
+       json.cheat_active,
+       json.result, dt.openpipeline.pipelines
+    | sort timestamp desc
    ```
 1. Click the *+* underneath the *get_cheaters* step, and choose "**HTTP Request**"
 1. Change the name of this step, *copy* and *paste*:
