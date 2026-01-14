@@ -91,7 +91,7 @@ This lab will show you how to "**Process**" and "**Extract**" your business data
       ```
       requestJSON.CheatActive
       ```
-1.   Add a new Value Metric
+1.   Add a new "**Mertric Extraction**" rule as a "**Value Metric**"
 1.   *Name* the new Value metric, *copy* and *paste*:
       ```
       WinAmount
