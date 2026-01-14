@@ -62,6 +62,20 @@
       DT_OAUTH_SSO_ENDPOINT: "{{ extra_vars.dt_oauth_sso_endpoint }}"
       INGRESS_DOMAIN: "{{ ingress_domain }}"
 
+# Apply Monaco configurations to enable OneAgent features
+- name: Deploy Monaco configurations for OneAgent features
+  ansible.builtin.shell: |
+    cd "{{ role_path_abs }}/files/monaco"
+    monaco deploy manifest.yml --environment perform --verbose
+  environment:
+    DT_API_TOKEN: "{{ dynatrace_api_token }}"
+    DT_PLATFORM_TENANT_URL: "{{ extra_vars.dt_environment_url_gen3.rstrip('/') }}"
+    DT_OAUTH_CLIENT_ID: "{{ extra_vars.dt_oauth_client_id }}"
+    DT_OAUTH_CLIENT_SECRET: "{{ extra_vars.dt_oauth_client_secret }}"
+    DT_OAUTH_SSO_ENDPOINT: "{{ extra_vars.dt_oauth_sso_endpoint }}"
+  become_user: "{{ ace_box_user | default('dt_training') }}"
+  failed_when: false
+
 # Deploy Vegas Casino as Kubernetes application
 - name: Apply Vegas Casino Kubernetes manifests
   kubernetes.core.k8s:
