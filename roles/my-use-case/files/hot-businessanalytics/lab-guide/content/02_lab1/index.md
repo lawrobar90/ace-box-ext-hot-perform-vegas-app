@@ -110,9 +110,11 @@ This lab will show you how to *create* and *validate* **business rules**.
 1. Change your DQL to this now:
      ```
      fetch bizevents
-      | filter not(matchesphrase(rsBody, "healthy"))
-      | sort timestamp desc
-      | parse rqBody, "JSON:json"
-      | fieldsFlatten json
+       | filter not(matchesphrase(rsBody, "healthy"))
+       | sort timestamp desc
+       | parse rqBody, "JSON:requestJSON"
+       | fieldsFlatten requestJSON
+       | parse rsBody, "JSON:resultJSON"
+       | fieldsFlatten resultJSON
      ```
  ### Now this is great for a dashboard, but let's automate this parsing rule instead ###
