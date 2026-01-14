@@ -111,7 +111,7 @@ This lab will show you how to "**Process**" and "**Extract**" your business data
 1.    For "**Dimensions**" select **custom**, *copy* and *paste*:
 1.    Field name on record:
       ```
-      requestJSON.Game
+      resultJSON.Game
       ```   
 1.    Dimension name:
       ```
