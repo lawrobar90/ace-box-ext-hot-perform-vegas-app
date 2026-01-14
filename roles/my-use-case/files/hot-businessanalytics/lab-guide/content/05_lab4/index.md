@@ -5,6 +5,12 @@ In this hands-on, we’ll be setting up this process using some existing buildin
 ### 4.1 Locking the users out
 1. Using the “**App drawer**” in the top-left of the screen (or the search) – *find* the "**Setting Classic**" app and *open* it.
 1. *Scroll down* to "**Preferences**" and *click* "**Limite outbound connections**"
+1. *Click* "**Add item**", then *copy* and *paste* the URL of your "**Vegas Application**":
+It should looke like the below
+   ```
+   vegas.******-******-******-******-*****.dynatrace.training
+   ```
+1. Click "**Save changes**"
 1. Using the “**App drawer**” in the top-left of the screen (or the search) – *find* the "**Workflows**" app and *open* it.
 1. *Click* "**+ Workflow**"
 1. In the first step, select "**On demand trigger**"
