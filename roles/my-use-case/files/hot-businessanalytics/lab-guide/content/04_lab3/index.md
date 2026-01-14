@@ -5,22 +5,12 @@ In this hands-on, we’ll be setting up this process using some existing buildin
 1. Using the “**App drawer**” in the top-left of the screen (or the search) – *find* the **“Settings Classic”** app and *open* it.
 1. Navigate to "**Log Monitoring**" then "**Set up log ingest**".
 1. At the top of the page, make sure all "**Quick Start**" options are enabled and *click* "**Save changes**".
-1. Using the “**App drawer**” in the top-left of the screen (or the search) – *find* the **“Settings”** app and *open* it.
-1. *Choose* “**+ Collect and Capture**” on the left panel, *choose* "**Log monitoring**" and *choose* "**Log Custom log sources**"
-1. The first thing to do is *choose* **when this Workflow will run** – for the purpose of this exercise we will *choose* the “**On demand**” trigger at the bottom, so it will *only* be executed when you hit **“Run"**.
-1. *Click* "**Add custom log source**"
-1. In the "**Rule name**" field *copy* and *paste* the following:
-```
-Vegas Casino Cheat Detection
-```
-1. Change "**Log source type**" under "**Custom log source path**" to "**Log Path**"
-1. At the bottom, *click* "**Add custom log source path**"
-1. In the path field, *copy* and *paste* the following:
-```
-vegas-casino/vegas-cheat-logs/*.log
-```
-1. *Click* "**Save changes**"
-
+1.  Navigate to your Dynatrace Notebook, add a new DQL widget, *copy*, *paste* and *run* the following:
+    ```
+    fetch logs
+     | filter matchesPhrase(content, "CustomerName")
+    ```
+# You will see new container logs that are the output of all game activity. #
 ### Go back to your Vegas Application, *Enable Cheats*, and play some games ###
 
 
