@@ -9,6 +9,7 @@ In this hands-on, we’ll be setting up this process using some existing buildin
     ```
     fetch logs
      | filter matchesPhrase(content, "CustomerName")
+     | sort timestamp desc
     ```
 ### You will see new container logs that are the output of all game activity. ###
 ## Go back to your Vegas Application, *Enable Cheats*, and play some games #
