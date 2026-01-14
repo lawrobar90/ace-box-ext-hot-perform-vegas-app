@@ -10,8 +10,8 @@ In this hands-on, we’ll be setting up this process using some existing buildin
     fetch logs
      | filter matchesPhrase(content, "CustomerName")
     ```
-# You will see new container logs that are the output of all game activity. #
-### Go back to your Vegas Application, *Enable Cheats*, and play some games ###
+### You will see new container logs that are the output of all game activity. ###
+## Go back to your Vegas Application, *Enable Cheats*, and play some games #
 
 
 ### 3.2 Processing your logs to find the cheaters
