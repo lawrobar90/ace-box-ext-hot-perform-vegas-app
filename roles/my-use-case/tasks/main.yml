@@ -13,7 +13,7 @@
     name: dt-access-token
   vars:
     access_token_var_name: "dynatrace_api_token"
-    access_token_scope: ["ReadConfig", "WriteConfig", "events.ingest", "settings.read", "settings.write", "metrics.ingest", "openTelemetryTrace.ingest", "logs.ingest", "storage:events:write"]
+    access_token_scope: ["ReadConfig", "WriteConfig", "events.ingest", "settings.read", "settings.write", "metrics.ingest", "openTelemetryTrace.ingest", "logs.ingest", "bizevents.ingest"]
 
 - include_role:
     name: "microk8s"
@@ -49,30 +49,18 @@
 - include_role:
     name: "dt-oneagent-classic"
 
-# Deploy Monaco configuration BEFORE app starts
+# Deploy Monaco configuration
 - include_role:
     name: "monaco-v2"
-- include_role:
-    name: monaco-v2
-    tasks_from: apply-monaco
-    apply:
-      environment:
-        DT_API_TOKEN: "{{ dynatrace_api_token }}"
-        DT_PLATFORM_TENANT_URL: "{{ extra_vars.dt_environment_url_gen3.rstrip('/') }}"
-        DT_OAUTH_CLIENT_ID: "{{ extra_vars.dt_oauth_client_id }}"
-        DT_OAUTH_CLIENT_SECRET: "{{ extra_vars.dt_oauth_client_secret }}"
-        DT_OAUTH_SSO_ENDPOINT: "{{ extra_vars.dt_oauth_sso_endpoint }}"
-        INGRESS_DOMAIN: "{{ ingress_domain }}"
   vars:
-    monaco_projects_root: "{{ role_path_abs }}/files/monaco"
-    monaco_project: "" # selection of projects or all projects under the root path if set empty
-    monaco_manifest_path: "{{ role_path_abs }}/files/monaco/manifest.yml"
+    monaco_working_dir: "{{ role_path_abs }}/files/monaco"
     monaco_environment:
       DT_API_TOKEN: "{{ dynatrace_api_token }}"
       DT_PLATFORM_TENANT_URL: "{{ extra_vars.dt_environment_url_gen3.rstrip('/') }}"
       DT_OAUTH_CLIENT_ID: "{{ extra_vars.dt_oauth_client_id }}"
       DT_OAUTH_CLIENT_SECRET: "{{ extra_vars.dt_oauth_client_secret }}"
       DT_OAUTH_SSO_ENDPOINT: "{{ extra_vars.dt_oauth_sso_endpoint }}"
+      INGRESS_DOMAIN: "{{ ingress_domain }}"
 
 # Deploy Vegas Casino as Kubernetes application
 - name: Apply Vegas Casino Kubernetes manifests
