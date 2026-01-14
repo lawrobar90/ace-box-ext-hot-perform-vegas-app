@@ -120,7 +120,7 @@ This lab will show you how to "**Process**" and "**Extract**" your business data
 1.   Click "**Add dimension**" on the right hand side.
 1.   Now, do the same for these other fields:
       ```
-      resultJSON.CheatType 
+      resultJSON.CheatType
       ``` 
       ```
       resultJSON.CustomerName
