@@ -15,8 +15,76 @@
     access_token_var_name: "dynatrace_api_token"
     access_token_scope: ["ReadConfig", "WriteConfig", "events.ingest", "settings.read", "settings.write", "metrics.ingest", "openTelemetryTrace.ingest", "logs.ingest", "storage:events:write", "storage:bizevents:write", "storage:bizevents:read", "storage:buckets:read"]
 
+- name: Install snapd for MicroK8s (Amazon Linux compatibility)
+  block:
+    - name: Install snapd on Amazon Linux
+      ansible.builtin.yum:
+        name: snapd
+        state: present
+      become: yes
+      
+    - name: Start and enable snapd service
+      ansible.builtin.systemd:
+        name: snapd
+        state: started
+        enabled: yes
+      become: yes
+      
+    - name: Create snapd socket symlink
+      ansible.builtin.file:
+        src: /var/lib/snapd/snap
+        dest: /snap
+        state: link
+      become: yes
+      failed_when: false
+      
+    - name: Wait for snapd to be ready
+      ansible.builtin.wait_for:
+        path: /run/snapd.socket
+        timeout: 60
+      become: yes
+  rescue:
+    - name: Log snapd installation failure
+      ansible.builtin.debug:
+        msg: "snapd installation failed, MicroK8s may not work properly"
+
 - include_role:
     name: "microk8s"
+
+# Verify MicroK8s and kubectl availability
+- name: Verify MicroK8s installation
+  block:
+    - name: Check if kubectl is available
+      ansible.builtin.shell: kubectl version --client
+      register: kubectl_check
+      failed_when: false
+      
+    - name: Check if microk8s is available
+      ansible.builtin.shell: microk8s status --wait-ready --timeout=60
+      register: microk8s_status
+      failed_when: false
+      become: yes
+      
+    - name: Enable required MicroK8s addons
+      ansible.builtin.shell: |
+        microk8s enable dns storage ingress
+      become: yes
+      when: microk8s_status.rc == 0
+      
+    - name: Set up kubectl alias
+      ansible.builtin.shell: |
+        echo 'alias kubectl="microk8s kubectl"' >> ~/.bashrc
+        . ~/.bashrc
+      when: kubectl_check.rc != 0 and microk8s_status.rc == 0
+      
+  rescue:
+    - name: Log MicroK8s verification failure
+      ansible.builtin.debug:
+        msg: "MicroK8s verification failed - Kubernetes deployment may fail"
+        
+    - name: Fail deployment if MicroK8s is not working
+      ansible.builtin.fail:
+        msg: "MicroK8s is required for Kubernetes deployment but is not available"
 
 # Install Node.js via ACE-BOX role for startup script compatibility
 - name: Install Node.js via ACE-BOX role
