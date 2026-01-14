@@ -155,7 +155,7 @@ Vegas Security Logs
       ```
 
 1.  For "**Pipeline**", *select* "**Vegas Cheat Logs to BizEvents**"
- 1. *Click* "**Add**" 
+ 1. *Click* "**Add**" and then "**Save**".
 
 ### Go back to your Vegas Application, *Enable Cheats*, and play some games ###
 
