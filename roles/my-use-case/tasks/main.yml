@@ -13,7 +13,7 @@
     name: dt-access-token
   vars:
     access_token_var_name: "dynatrace_api_token"
-    access_token_scope: ["ReadConfig", "WriteConfig", "events.ingest", "settings.read", "settings.write", "metrics.ingest", "openTelemetryTrace.ingest", "logs.ingest", "bizevents.ingest"]
+    access_token_scope: ["ReadConfig", "WriteConfig", "events.ingest", "settings.read", "settings.write", "metrics.ingest", "openTelemetryTrace.ingest", "logs.ingest", "storage:events:write"]
 
 - include_role:
     name: "microk8s"
