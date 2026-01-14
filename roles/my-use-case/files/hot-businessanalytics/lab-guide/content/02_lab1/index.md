@@ -117,4 +117,4 @@ This lab will show you how to *create* and *validate* **business rules**.
        | parse rsBody, "JSON:resultJSON"
        | fieldsFlatten resultJSON
      ```
- ### Now this is great for a dashboard, but let's automate this parsing rule instead ###
+ ### Now this is great for a dashboard, but why not automate this parsing process instead? ###
