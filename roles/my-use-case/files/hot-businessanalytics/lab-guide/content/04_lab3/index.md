@@ -77,6 +77,10 @@ Vegas Casino Fraud Detection
 Vegas Cheating - WinAmount
 ```
 1.   For "**Matching condition**", leave set to **true**
+1.   For the "**Field extraction**", then *copy* and *paste*:
+```
+json.winAmount
+```
 1.   For the "**Metric Key**", then *copy* and *paste*:
 ```
 log.cheat_WinAmount
@@ -124,6 +128,10 @@ CustomerName
      ```
      Vegas Cheating - BetAmount
      ```
+1.   Change "**Field extraction**", *copy* and *paste*:
+```
+json.BetAmount
+```
 1.   Change the *Metric key*, *copy* and *paste*:
      ```
      log.cheat_BetAmount
@@ -137,7 +145,7 @@ CustomerName
 1. For "**Name**", *copy* and *paste*: 
 
 ```
-Vegas Security Logs      
+Vegas Security Logs
 ```
 
 1. For "**Matching condition**", *copy* and *paste*:
@@ -151,8 +159,13 @@ Vegas Security Logs
 
 ### Go back to your Vegas Application, *Enable Cheats*, and play some games ###
 
-1.  Navigate to your Dynatrace Notebook, add a new DQL widget, *copy*, *paste* and *run* the following:
+1.  Navigate to your Dynatrace Notebook, add two new DQL widgets, *copy*, *paste* and *run* the following in each of them:
+    ```
+    fetch logs
+    | sort timestamp desc
+    | filter dt.openpipeline.pipelines != array("logs:default")
+    ```
     ```
     timeseries { sum(log.cheat_winAmount), value.A = sum(log.cheat_winAmount, scalar: true), sum(log.cheat_BetAmount), value.B = sum(log.cheat_BetAmount, scalar: true) }, union: TRUE
     ```
-1. Change *Visualization Type* to a "**Bar**"
+1. Change *Visualization Type* to a "**Bar**" for the second query
