@@ -167,8 +167,9 @@ This lab will show you how to "**Process**" and "**Extract**" your business data
 1.	*Copy* and *paste* the **query** :
 
       ```
-      fetch bizevents
+     fetch bizevents
       | filter not(matchesphrase(rsBody, "healthy"))
+      | filter dt.openpipeline.pipelines != array("bizevents:default")
       | sort timestamp desc
       ```
 
