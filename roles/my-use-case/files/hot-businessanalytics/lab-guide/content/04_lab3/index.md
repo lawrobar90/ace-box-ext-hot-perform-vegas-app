@@ -159,11 +159,16 @@ Vegas Security Logs
 
 ### Go back to your Vegas Application, *Enable Cheats*, and play some games ###
 
-1.  Navigate to your Dynatrace Notebook, add two new DQL widgets, *copy*, *paste* and *run* the following in each of them:
+1.  Navigate to your Dynatrace Notebook, add *three* new DQL widgets, *copy*, *paste* and *run* the following in each of them:
     ```
     fetch logs
     | sort timestamp desc
     | filter dt.openpipeline.pipelines != array("logs:default")
+    ```
+    ```
+     fetch bizevents
+    | filter event.provider == "Vegas Casino Fraud Detection"
+    | sort timestamp desc
     ```
     ```
     timeseries { sum(log.cheat_winAmount), value.A = sum(log.cheat_winAmount, scalar: true), sum(log.cheat_BetAmount), value.B = sum(log.cheat_BetAmount, scalar: true) }, union: TRUE
