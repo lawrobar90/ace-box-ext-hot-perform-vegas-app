@@ -117,6 +117,20 @@
 - include_role:
     name: "dt-oneagent-classic"
 
+# Verify OneAgent is ready before app deployment
+- name: Wait for OneAgent to be fully ready
+  ansible.builtin.wait_for:
+    path: /opt/dynatrace/oneagent/agent/lib64/liboneagentos.so
+    timeout: 120
+  failed_when: false
+
+- name: Verify OneAgent service status
+  ansible.builtin.systemd:
+    name: oneagent
+    state: started
+  become: yes
+  failed_when: false
+
 # Deploy Monaco configuration
 - include_role:
     name: "monaco-v2"
@@ -181,6 +195,10 @@
           metadata:
             labels:
               app: vegas-casino
+            annotations:
+              # OneAgent injection annotations for proper instrumentation
+              oneagent.dynatrace.com/inject: "true"
+              oneagent.dynatrace.com/technologies: "nodejs"
           spec:
             containers:
             - name: vegas-casino
@@ -193,7 +211,9 @@
                   git clone https://github.com/lawrobar90/Perform-Vegas-Casino.git /app
                   cd /app
                   npm install
-                  # Use node server.js directly instead of the complex startup script
+                  # Wait a moment for any OneAgent initialization
+                  sleep 5
+                  # Use node server.js directly with OneAgent support
                   exec node server.js
               ports:
               - containerPort: 8080
