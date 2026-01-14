@@ -13,14 +13,14 @@
     name: dt-access-token
   vars:
     access_token_var_name: "dynatrace_api_token"
-    access_token_scope: ["ReadConfig", "WriteConfig", "events.ingest", "settings.read", "settings.write", "metrics.ingest", "openTelemetryTrace.ingest", "logs.ingest", "storage:events:write", "storage:bizevents:write", "storage:bizevents:read", "storage:buckets:read"]
+    access_token_scope: ["ReadConfig", "WriteConfig", "events.ingest", "settings.read", "settings.write", "metrics.ingest", "openTelemetryTrace.ingest", "logs.ingest"]
 
 # Also create monaco_cleanup_api_token for Monaco deployment compatibility
 - include_role:
     name: dt-access-token
   vars:
     access_token_var_name: "monaco_cleanup_api_token"
-    access_token_scope: ["ReadConfig", "WriteConfig", "events.ingest", "settings.read", "settings.write", "metrics.ingest", "openTelemetryTrace.ingest", "logs.ingest", "storage:events:write", "storage:bizevents:write", "storage:bizevents:read", "storage:buckets:read"]
+    access_token_scope: ["ReadConfig", "WriteConfig", "events.ingest", "settings.read", "settings.write", "metrics.ingest", "openTelemetryTrace.ingest", "logs.ingest"]
 
 # Generate OAuth Token for Business Events ingestion
 - block:
