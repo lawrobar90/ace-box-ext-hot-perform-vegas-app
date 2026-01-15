@@ -14,16 +14,13 @@ This lab will show you how to *create* and *validate* **business rules**.
 ```
 Vegas Application
 ```
-##### Configure Trigger
 1. *Click* on "**Add trigger**"
 1. For "**Data source**", *select* "**Request - Body**"
 1. For "**Operator**", *select* "**exists**"
 1. For "**Path**", *copy* and *paste*:
-      ```
-      Game
-      ```
-
-##### Configure metadata (Event Provider)
+```
+Game
+```
 
 11.	For "**Event provider Data Source**", *click* on "**Fixed value**" and make sure that "**Request - Body**" is *selected*
 12.	For "**Path**", *copy* and *paste*:
