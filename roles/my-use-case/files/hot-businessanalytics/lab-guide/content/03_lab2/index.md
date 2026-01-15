@@ -84,13 +84,29 @@ This lab will show you how to "**Process**" and "**Extract**" your business data
 1.   Now, do the same for these other fields:
       ```
       requestJSON.CheatType
-      ``` 
+      ```
+1.    Dimension name:
+      ```
+      CheatType
+      ```   
+1.    Field name on record:
       ```
       requestJSON.CustomerName
-      ``` 
+      ```
+1.    Dimension name:
+      ```
+      CustomerName
+      ```   
+1.    Field name on record:
+
       ```
       requestJSON.CheatActive
       ```
+
+1.    Dimension name:
+      ```
+      CheatActive
+      ```   
 1.   Add a new "**Mertric Extraction**" rule as a "**Value Metric**"
 1.   *Name* the new Value metric, *copy* and *paste*:
       ```
@@ -121,13 +137,29 @@ This lab will show you how to "**Process**" and "**Extract**" your business data
 1.   Now, do the same for these other fields:
       ```
       resultJSON.CheatType
-      ``` 
+      ```
+1.    Dimension name:
+      ```
+      CheatType
+      ```   
+1.    Field name on record:
       ```
       resultJSON.CustomerName
-      ``` 
+      ```
+1.    Dimension name:
+      ```
+      CustomerName
+      ```   
+1.    Field name on record:
+
       ```
       resultJSON.CheatActive
       ```
+
+1.    Dimension name:
+      ```
+      CheatActive
+      ```   
 
 **At the top right of the screen, click "*Save*"**
 
