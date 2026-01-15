@@ -20,11 +20,14 @@ Vegas Application
 - For "**Data source**", *select* "**Request - Body**"
 - For "**Operator**", *select* "**exists**"
 - For "**Path**", *copy* and *paste*:
+
 ```
 Game
 ```
+
 - For "**Event provider Data Source**", *click* on "**Fixed value**" and make sure that "**Request - Body**" is *selected*
 - For "**Path**", *copy* and *paste*:
+  
       ```
       Game
       ```
@@ -33,18 +36,23 @@ Game
 
 - For "**Event type data source**", *click* on "**Fixed value**" and make sure that "**Request - Body**" is *selected*
 - For "**Path**", *copy* and *paste*:
+
 ```
 Action
 ```
+
 - Leave "**Event category**" **empty*, it's optional and not needed for this training lab.
 ##### Configure additional data (JSON Payloads)
 - *Click* on "**Add data field**"
 - For "**Data source**", make sure that "**Request - Body**" is *selected*
 - For "**Field name**", *copy* and *paste*:
+  
       ```
       rqBody
       ```
+  
 - For "**Path**", *copy* and *paste*:
+  
       ```
       *
       ```
@@ -52,13 +60,17 @@ Action
 - *Click* on "**Add data field**"
 - For "**Data source**", make sure that "**Response - Body**" is *selected*
 - For "**Field name**", *copy* and *paste*:
+  
       ```
       rsBody
       ```
+  
 - For "**Path**", *copy* and *paste*:
+  
       ```
       *
       ```
+  
 **At the bottom of the screen, click "Save changes"**
 
 ### 1.2 Service Naming Rules
@@ -68,19 +80,25 @@ Action
 - *Open* "**Server-side Service monitoring**" menu group
 - *Click* on "**Service naming rules**" and add a new rule.
 - For Rule name, *copy* and *paste*:
+  
       ```
       Vegas Naming Rules
       ```
+  
 - For Service name format, *copy* and *paste*:
+  
       ```
       {ProcessGroup:DetectedName}
       ```
+  
 - For Conditions name format, *select* **Detected process group name** from the dropdown
 - Change matcher to **begins with**
 - For "**value**", *copy* and *paste*:
+  
       ```
       vegas
       ```
+  
 - *Click* "**Preview**"
 - You will see the "**Process Group Detected Names**" are now showing as the "**New name*"" for the services. This is a typical step when working with *node.js* applications running from a single server.
 - *Click* "**Save changes**" at the bottom of the screen
@@ -104,6 +122,7 @@ Action
 
 ### The Request and Response body are filled with valuable data, but it's still in JSON format ###
 - Change your DQL to this now:
+  
      ```
      fetch bizevents
        | filter not(matchesphrase(rsBody, "healthy"))
@@ -113,4 +132,5 @@ Action
        | parse rsBody, "JSON:resultJSON"
        | fieldsFlatten resultJSON
      ```
+     
  ### Now this is great for a dashboard, but why not automate this parsing process instead? ###
