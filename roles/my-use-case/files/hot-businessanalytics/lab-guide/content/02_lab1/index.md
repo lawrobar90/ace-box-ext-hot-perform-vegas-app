@@ -5,7 +5,7 @@ This lab will show you how to *create* and *validate* **business rules**.
 ### 1.1 OneAgent rule Configuration
 
 Configure
-- *Click* on the "**Application Drawer**" on your Dynatrace tenant, and search for "**Settings**" and open
+- *Click* on the "**Apps Drawer**" on your Dynatrace tenant, and search for "**Settings**" and open
 - *Open* "**Collect and capture**" sidebar tab
 - *Click* on "**Business events**"
 - *Click* on "**Incoming**"
