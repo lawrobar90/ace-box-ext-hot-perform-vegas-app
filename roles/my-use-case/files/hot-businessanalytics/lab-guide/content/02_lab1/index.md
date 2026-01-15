@@ -98,7 +98,7 @@ vegas
 ```
   
 - *Click* "**Preview**"
-- You will see the "**Process Group Detected Names**" are now showing as the "**New name**" for the services instead of "**dynatrace-vegas-casino88". This is a typical step when working with *node.js* applications running from a single server.
+- You will see the "**Process Group Detected Names**" are now showing as the "**New name**" for the services instead of "**dynatrace-vegas-casino**". This is a typical step when working with *node.js* applications running from a single server.
 - *Click* **Create Rule**"
 - *Click* "**Save changes**" at the bottom of the screen
 
