@@ -77,19 +77,19 @@ rsBody
 ##### Create a Service Naming Rule for the intelligent traceing to be captured
 - On the same screen, *Click* "**Server-side Service monitoring**" from the left *Navigation Panel*
 - *Click* on "**Service naming rules**" and add a new rule.
-- For Rule name, *copy* and *paste*:
+- For "**Rule name**", *copy* and *paste*:
   
 ```
 Vegas Naming Rules
 ```
   
-- For Service name format, *copy* and *paste*:
+- For "**Service name format**", *copy* and *paste*:
   
 ```
 {ProcessGroup:DetectedName}
 ```
   
-- For Conditions name format, *select* **Detected process group name** from the dropdown
+- For "**Conditions**", *select* **Detected process group name** from the dropdown
 - Change matcher to **begins with**
 - For "**value**", *copy* and *paste*:
   
@@ -98,7 +98,8 @@ vegas
 ```
   
 - *Click* "**Preview**"
-- You will see the "**Process Group Detected Names**" are now showing as the "**New name*"" for the services. This is a typical step when working with *node.js* applications running from a single server.
+- You will see the "**Process Group Detected Names**" are now showing as the "**New name**" for the services instead of "**dynatrace-vegas-casino88". This is a typical step when working with *node.js* applications running from a single server.
+- *Click* **Create Rule**"
 - *Click* "**Save changes**" at the bottom of the screen
 
 ### *PLAY SOME OF THE VEGAS APPLICATIONS IN THE WEBSITE, ACTIVATE CHEATS FOR BIG WINS* ###
