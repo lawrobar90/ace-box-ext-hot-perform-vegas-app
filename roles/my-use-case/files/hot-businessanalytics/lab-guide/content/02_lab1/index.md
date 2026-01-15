@@ -11,9 +11,11 @@ Configure
 - *Click* on "**Incoming**"
 - *Click* on "**Add new capture rule**" on the **incoming** tab
 - For field "**Rule name**", *copy* and *paste*:
+
 ```
 Vegas Application
 ```
+
 - *Click* on "**Add trigger**"
 - For "**Data source**", *select* "**Request - Body**"
 - For "**Operator**", *select* "**exists**"
