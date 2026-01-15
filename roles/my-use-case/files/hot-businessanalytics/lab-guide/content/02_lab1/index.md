@@ -27,10 +27,9 @@ Game
 
 - For "**Event provider Data Source**", *click* on "**Fixed value**" and make sure that "**Request - Body**" is *selected*
 - For "**Path**", *copy* and *paste*:
-  
-      ```
-      Game
-      ```
+```
+Game
+```
 
 ##### Configure metadata (Event Type)
 
@@ -47,29 +46,29 @@ Action
 - For "**Data source**", make sure that "**Request - Body**" is *selected*
 - For "**Field name**", *copy* and *paste*:
   
-      ```
-      rqBody
-      ```
+```
+rqBody
+```
   
 - For "**Path**", *copy* and *paste*:
   
-      ```
-      *
-      ```
+```
+*
+```
 
 - *Click* on "**Add data field**"
 - For "**Data source**", make sure that "**Response - Body**" is *selected*
 - For "**Field name**", *copy* and *paste*:
   
-      ```
-      rsBody
-      ```
+```
+rsBody
+```
   
 - For "**Path**", *copy* and *paste*:
   
-      ```
-      *
-      ```
+```
+*
+```
   
 **At the bottom of the screen, click "Save changes"**
 
@@ -81,23 +80,23 @@ Action
 - *Click* on "**Service naming rules**" and add a new rule.
 - For Rule name, *copy* and *paste*:
   
-      ```
-      Vegas Naming Rules
-      ```
+```
+Vegas Naming Rules
+```
   
 - For Service name format, *copy* and *paste*:
   
-      ```
-      {ProcessGroup:DetectedName}
-      ```
+```
+{ProcessGroup:DetectedName}
+```
   
 - For Conditions name format, *select* **Detected process group name** from the dropdown
 - Change matcher to **begins with**
 - For "**value**", *copy* and *paste*:
   
-      ```
-      vegas
-      ```
+```
+vegas
+```
   
 - *Click* "**Preview**"
 - You will see the "**Process Group Detected Names**" are now showing as the "**New name*"" for the services. This is a typical step when working with *node.js* applications running from a single server.
@@ -114,23 +113,23 @@ Action
 - *Click* on "**DQL**"
 - *Copy* and *paste* the **query** - Change the **Game** to the one you are testing with surrounded by quotation marks:
 
-      ```
-      fetch bizevents
-      | filter not(matchesphrase(rsBody, "healthy"))
-      | sort timestamp desc 
-      ```
+```
+fetch bizevents
+| filter not(matchesphrase(rsBody, "healthy"))
+| sort timestamp desc 
+```
 
 ### The Request and Response body are filled with valuable data, but it's still in JSON format ###
 - Change your DQL to this now:
   
-     ```
-     fetch bizevents
-       | filter not(matchesphrase(rsBody, "healthy"))
-       | sort timestamp desc
-       | parse rqBody, "JSON:requestJSON"
-       | fieldsFlatten requestJSON
-       | parse rsBody, "JSON:resultJSON"
-       | fieldsFlatten resultJSON
-     ```
+```
+fetch bizevents
+| filter not(matchesphrase(rsBody, "healthy"))
+| sort timestamp desc
+| parse rqBody, "JSON:requestJSON"
+| fieldsFlatten requestJSON
+| parse rsBody, "JSON:resultJSON"
+| fieldsFlatten resultJSON
+```
      
  ### Now this is great for a dashboard, but why not automate this parsing process instead? ###
