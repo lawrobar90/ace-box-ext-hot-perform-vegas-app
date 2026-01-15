@@ -116,6 +116,7 @@ export default async function ({ execution_id }) {
 }
 ```
 
+1.   *Click the "**Setting Cog**" at the top right of the workflow, and *enable* "**Workflow Admin**".
 1.   *Click* "**Depoloy**", and *Run* the workflow to test it works.
 1.   You will see Customers who are cheating, but likely will not see your name yet.
 
