@@ -6,91 +6,89 @@ This lab will show you how to *create* and *validate* **business rules**.
 
 ##### Configure
 1.	*Open* "**Settings**"
-1.	*Open* "**Collect and capture**" sidebar tab
-1.	*Click* on "**Business events**"
-1.	*Click* on "**Incoming**"
-1.	*Click* on "**Add new capture rule**" on the **incoming** tab
-1.	For field "**Rule name**", *copy* and *paste*:
+2.	*Open* "**Collect and capture**" sidebar tab
+3.	*Click* on "**Business events**"
+4.	*Click* on "**Incoming**"
+5.	*Click* on "**Add new capture rule**" on the **incoming** tab
+6.	For field "**Rule name**", *copy* and *paste*:
       ```
       Vegas Application
       ```
 
 ##### Configure Trigger
 
-1.	*Click* on "**Add trigger**"
-1.	For "**Data source**", *select* "**Request - Body**"
-1.	For "**Operator**", *select* "**exists**"
-1.	For "**Path**", *copy* and *paste*:
+7.	*Click* on "**Add trigger**"
+8.	For "**Data source**", *select* "**Request - Body**"
+9.	For "**Operator**", *select* "**exists**"
+10.	For "**Path**", *copy* and *paste*:
       ```
       Game
       ```
 
 ##### Configure metadata (Event Provider)
 
-1.	For "**Event provider Data Source**", *click* on "**Fixed value**" and make sure that "**Request - Body**" is *selected*
-1.	For "**Path**", *copy* and *paste*:
+11.	For "**Event provider Data Source**", *click* on "**Fixed value**" and make sure that "**Request - Body**" is *selected*
+12.	For "**Path**", *copy* and *paste*:
       ```
       Game
       ```
 
 ##### Configure metadata (Event Type)
 
-1.	For "**Event type data source**", *click* on "**Fixed value**" and make sure that "**Request - Body**" is *selected*
-1.	For "**Path**", *copy* and *paste*:
+13.	For "**Event type data source**", *click* on "**Fixed value**" and make sure that "**Request - Body**" is *selected*
+14.	For "**Path**", *copy* and *paste*:
       ```
       Action
       ```
-1.    Leave "**Event category**" **empty*, it's optional and not needed for this training lab.
+15.    Leave "**Event category**" **empty*, it's optional and not needed for this training lab.
 ##### Configure additional data (JSON Payloads)
 
-1.	*Click* on "**Add data field**"
-1.	For "**Data source**", make sure that "**Request - Body**" is *selected*
-1.	For "**Field name**", *copy* and *paste*:
+16.	*Click* on "**Add data field**"
+17.	For "**Data source**", make sure that "**Request - Body**" is *selected*
+18.	For "**Field name**", *copy* and *paste*:
       ```
       rqBody
       ```
-1.	For "**Path**", *copy* and *paste*:
+19.	For "**Path**", *copy* and *paste*:
       ```
       *
       ```
 
-1.	*Click* on "**Add data field**"
-1.	For "**Data source**", make sure that "**Response - Body**" is *selected*
-1.	For "**Field name**", *copy* and *paste*:
+20.	*Click* on "**Add data field**"
+21.	For "**Data source**", make sure that "**Response - Body**" is *selected*
+22.	For "**Field name**", *copy* and *paste*:
       ```
       rsBody
       ```
-1.	For "**Path**", *copy* and *paste*:
+23.	For "**Path**", *copy* and *paste*:
       ```
       *
       ```
-
-
 **At the bottom of the screen, click "Save changes"**
 
 ### 1.2 Service Naming Rules
 
 ##### Create a Service Naming Rule for the intelligent traceing to be captured
 1.	*Open* "**Settings Classic**"
-1.	*Open* "**Server-side Service monitoring**" menu group
-1.	*Click* on "**Service naming rules**" and add a new rule.
-1.    For Rule name, *copy* and *paste*:
+2.	*Open* "**Server-side Service monitoring**" menu group
+3.	*Click* on "**Service naming rules**" and add a new rule.
+4.    For Rule name, *copy* and *paste*:
       ```
       Vegas Naming Rules
       ```
-1.    For Service name format, *copy* and *paste*:
+5.    For Service name format, *copy* and *paste*:
       ```
       {ProcessGroup:DetectedName}
       ```
-1.    For Conditions name format, *select* **Detected process group name** from the dropdown
-1.    Change matcher to **begins with**
-1.    For "**value**", *copy* and *paste*:
+6.    For Conditions name format, *select* **Detected process group name** from the dropdown
+7.    Change matcher to **begins with**
+8.    For "**value**", *copy* and *paste*:
       ```
       vegas
       ```
-1.    *Click* "**Preview**"
-1.    You will see the "**Process Group Detected Names**" are now showing as the "**New name*"" for the services. This is a typical step when working with *node.js* applications running from a single server.
-1.    *Click* "**Save changes**" at the bottom of the screen
+9.    *Click* "**Preview**"
+10.    You will see the "**Process Group Detected Names**" are now showing as the "**New name*"" for the services. This is a typical step when working with *node.js* applications running from a single server.
+11.    *Click* "**Save changes**" at the bottom of the screen
 
 ### *PLAY SOME OF THE VEGAS APPLICATIONS IN THE WEBSITE, ACTIVATE CHEATS FOR BIG WINS* ###
 ### *CAREFUL, CHEATERS NEVER PROSPER!* ###
@@ -99,9 +97,9 @@ This lab will show you how to *create* and *validate* **business rules**.
 
 ##### Validate you have "**Business Events**"
 1.	From the menu, *open* "**Notebooks**"
-1.	*Click* on the "**+**" to add a new section
-1.	*Click* on "**DQL**"
-1.	*Copy* and *paste* the **query** - Change the **Game** to the one you are testing with surrounded by quotation marks:
+2.	*Click* on the "**+**" to add a new section
+3.	*Click* on "**DQL**"
+4.	*Copy* and *paste* the **query** - Change the **Game** to the one you are testing with surrounded by quotation marks:
 
       ```
       fetch bizevents
@@ -110,7 +108,7 @@ This lab will show you how to *create* and *validate* **business rules**.
       ```
 
 ### The Request and Response body are filled with valuable data, but it's still in JSON format ###
-1. Change your DQL to this now:
+5. Change your DQL to this now:
      ```
      fetch bizevents
        | filter not(matchesphrase(rsBody, "healthy"))
