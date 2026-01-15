@@ -92,7 +92,7 @@ This lab will show you how to *create* and *validate* **business rules**.
 ### *PLAY SOME OF THE VEGAS APPLICATIONS IN THE WEBSITE, ACTIVATE CHEATS FOR BIG WINS* ###
 ### *CAREFUL, CHEATERS NEVER PROSPER!* ###
 
-### 1.7 Queries
+### 1.3 Queries
 
 ##### Validate you have "**Business Events**"
 1.	From the menu, *open* "**Notebooks**"
