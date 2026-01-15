@@ -109,6 +109,7 @@ vegas
 
 ##### Validate you have "**Business Events**"
 - From the menu, *open* "**Notebooks**"
+- *Click* "**+ Notebook**" at the top left of this screen
 - *Click* on the "**+**" to add a new section
 - *Click* on "**DQL**"
 - *Copy* and *paste* the **query** - Change the **Game** to the one you are testing with surrounded by quotation marks:
