@@ -21,7 +21,6 @@ In this hands-on, we’ll be setting up this process using some existing buildin
 1. *Click* on "**Pipelines**"
 1. *Create* a "**+ pipeline**"
 1. *Rename* the pipeline:
-
 ```
 Vegas Cheat Logs to BizEvents
 ```
@@ -31,14 +30,11 @@ Vegas Cheat Logs to BizEvents
 1.	*Access* the "**Processing**" tab
 1.	From the processor dropdown menu, *Select* "**DQL**" 
 1.	*Name* the new processor, *copy* and *paste*:
-
 ```
 JSON Log parser
 ```
-
 1.	For "**Matching condition**", leave set to **true**
 1.	For "**DQL processor definition**", *copy* and *paste*:
-
 ```
 parse content, "JSON:json"
 | fieldsFlatten json
@@ -48,7 +44,6 @@ parse content, "JSON:json"
 1.	*Access* the "**Data extraction**" tab
 1.	From the processor dropdown menu, *Select* "**Business event**" 
 1.	*Name* the new processor, *copy* and *paste*:
-
 ```
 Cheating Attempt
 ```
@@ -72,7 +67,6 @@ Vegas Casino Fraud Detection
 1.   *Access* the "**Metric extraction**" tab
 1.   From the processor dropdown menu, *Select* "**Value Metric**"
 1.   *Name* the new processor, *copy* and *paste*:
-
 ```
 Vegas Cheating - WinAmount
 ```
@@ -97,32 +91,23 @@ cheatType
 1.   *Click* on "**Add Dimension**"
 1.   Do the same for these other 2 dimensions:
 ##### Field name on record:
-
 ```
 json.game
 ```
-     
 ##### Dimension name
-
 ```
 Game
 ```
-     
 ##### *Click* on "**Add Dimension**"
 ##### Field name on record:
-
 ```
 json.CustomerName
 ```
-     
 ##### Dimension name
-
 ```
 CustomerName
 ```
-     
 ##### *Click* on "**Add Dimension**"
-
 1.   Click the 3 vertical buttons on your "**Vegas Cheating - WinAmount**" metric, and select "**Duplicate**"
 1.   Change the *Name*, *copy* and *paste*:
      ```
@@ -139,23 +124,18 @@ json.BetAmount
 ##### *Click* "**Save**" so you don't lose this config
 
 ### 3.6 OpenPipeline Dynamic Routing
-
 1. *Access* the "**Dynamic routing**" tab
 1. *Create* a *new Dynamic route*
 1. For "**Name**", *copy* and *paste*: 
-
 ```
 Vegas Security Logs
 ```
-
 1. For "**Matching condition**", *copy* and *paste*:
-
-      ```
-      matchesPhrase(content, "cheat_active\":true")
-      ```
-
+```
+matchesPhrase(content, "cheat_active\":true")
+```
 1.  For "**Pipeline**", *select* "**Vegas Cheat Logs to BizEvents**"
- 1. *Click* "**Add**" and then "**Save**".
+1. *Click* "**Add**" and then "**Save**".
 
 ### Go back to your Vegas Application, *Enable Cheats*, and play some games ###
 
