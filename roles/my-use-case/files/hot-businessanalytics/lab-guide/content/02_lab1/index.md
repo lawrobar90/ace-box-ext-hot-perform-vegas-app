@@ -5,22 +5,21 @@ This lab will show you how to *create* and *validate* **business rules**.
 ### 1.1 OneAgent rule Configuration
 
 ##### Configure
-1.	*Click* on the "**Application Drawer**" on your Dynatrace tenant, and search for "**Settings**" and open
-2.	*Open* "**Collect and capture**" sidebar tab
-3.	*Click* on "**Business events**"
-4.	*Click* on "**Incoming**"
-5.	*Click* on "**Add new capture rule**" on the **incoming** tab
-6.	For field "**Rule name**", *copy* and *paste*:
+1. *Click* on the "**Application Drawer**" on your Dynatrace tenant, and search for "**Settings**" and open
+1. *Open* "**Collect and capture**" sidebar tab
+1. *Click* on "**Business events**"
+1. *Click* on "**Incoming**"
+1. *Click* on "**Add new capture rule**" on the **incoming** tab
+1. For field "**Rule name**", *copy* and *paste*:
       ```
       Vegas Application
       ```
 
 ##### Configure Trigger
-
-7.	*Click* on "**Add trigger**"
-8.	For "**Data source**", *select* "**Request - Body**"
-9.	For "**Operator**", *select* "**exists**"
-10.	For "**Path**", *copy* and *paste*:
+1. *Click* on "**Add trigger**"
+1. For "**Data source**", *select* "**Request - Body**"
+1. For "**Operator**", *select* "**exists**"
+1. For "**Path**", *copy* and *paste*:
       ```
       Game
       ```
