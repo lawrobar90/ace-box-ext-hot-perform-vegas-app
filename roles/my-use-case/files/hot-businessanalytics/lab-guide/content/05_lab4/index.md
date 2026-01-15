@@ -157,3 +157,5 @@ export default async function ({ execution_id }) {
             user_locked,
             event.type
       ```
+1.  Go back into your Vegas Casino UI, and you should have an "**Account Locked**" message with a full red background.
+1.  You are now deemds to be a cheater, thrown out of the hotel and have a cirminal record.... Well done!
