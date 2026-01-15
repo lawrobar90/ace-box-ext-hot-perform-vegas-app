@@ -5,9 +5,10 @@ This lab will show you how to *create* and *validate* **business rules**.
 ### 1.1 OneAgent rule Configuration
 
 ##### Configure
-1.	*Open* "**Settings Classic**"
-1.	*Open* "**Business Analytics**" menu group
-1.	*Click* on "**OneAgent**"
+1.	*Open* "**Settings**"
+1.	*Open* "**Collect and capture**" sidebar tab
+1.	*Click* on "**Business events**"
+1.	*Click* on "**Incoming**"
 1.	*Click* on "**Add new capture rule**" on the **incoming** tab
 1.	For field "**Rule name**", *copy* and *paste*:
       ```
@@ -27,7 +28,7 @@ This lab will show you how to *create* and *validate* **business rules**.
 ##### Configure metadata (Event Provider)
 
 1.	For "**Event provider Data Source**", *click* on "**Fixed value**" and make sure that "**Request - Body**" is *selected*
-1.	For "**Field name**" and "**Path**", *copy* and *paste*:
+1.	For "**Path**", *copy* and *paste*:
       ```
       Game
       ```
@@ -35,11 +36,11 @@ This lab will show you how to *create* and *validate* **business rules**.
 ##### Configure metadata (Event Type)
 
 1.	For "**Event type data source**", *click* on "**Fixed value**" and make sure that "**Request - Body**" is *selected*
-1.	For "**Field name**" and "**Path**", *copy* and *paste*:
+1.	For "**Path**", *copy* and *paste*:
       ```
       Action
       ```
-
+1.    Leave "**Event category**" **empty*, it's optional and not needed for this training lab.
 ##### Configure additional data (JSON Payloads)
 
 1.	*Click* on "**Add data field**"
@@ -87,7 +88,9 @@ This lab will show you how to *create* and *validate* **business rules**.
       ```
       vegas
       ```
-1.    Click *Preview* then **Save changes**
+1.    *Click* "**Preview**"
+1.    You will see the "**Process Group Detected Names**" are now showing as the "**New name*"" for the services. This is a typical step when working with *node.js* applications running from a single server.
+1.    *Click* "**Save changes**" at the bottom of the screen
 
 ### *PLAY SOME OF THE VEGAS APPLICATIONS IN THE WEBSITE, ACTIVATE CHEATS FOR BIG WINS* ###
 ### *CAREFUL, CHEATERS NEVER PROSPER!* ###
