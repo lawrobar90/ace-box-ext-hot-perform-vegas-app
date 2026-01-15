@@ -4,12 +4,12 @@ This lab will show you how to "**Process**" and "**Extract**" your business data
 
 ### 1.1 OpenPipeline Pipeline Configuration
 
-1. *Open* "**OpenPipeline**" 
+1. *Click* on the "**Application Drawer**" on your Dynatrace tenant, and search for "**Settings**" and open
+1. *Click* "**Process and contextualize**" on the left side bar, and *select* "**OpenPipeline**" 
 1. *Click* on "**Business events**" menu group
-1. *Click* on "**Pipelines**"
-1. *Create* a **new pipeline**
-1. *Rename* the pipeline:
-
+1. *Click* on "**Pipelines**" just above the table displayed
+1. *Click* the "**+ Pipeline**" on the far right of the screen
+1. *Rename* the pipeline from "**Untitled pipeline**" to:
       ```
       Vegas Pipeline
       ```
