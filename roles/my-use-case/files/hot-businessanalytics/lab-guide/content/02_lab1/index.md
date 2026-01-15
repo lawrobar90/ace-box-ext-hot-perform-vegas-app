@@ -11,10 +11,9 @@ This lab will show you how to *create* and *validate* **business rules**.
 1. *Click* on "**Incoming**"
 1. *Click* on "**Add new capture rule**" on the **incoming** tab
 1. For field "**Rule name**", *copy* and *paste*:
-      ```
-      Vegas Application
-      ```
-
+```
+Vegas Application
+```
 ##### Configure Trigger
 1. *Click* on "**Add trigger**"
 1. For "**Data source**", *select* "**Request - Body**"
