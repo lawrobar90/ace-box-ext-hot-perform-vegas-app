@@ -207,6 +207,8 @@ This lab will show you how to "**Process**" and "**Extract**" your business data
 
 1.	*Click* on the "**+**" to add a new section
 1.	*Click* on "**Metrics**"
-1.	Select the metrics you just created and split by thew dimensions
+1.	Select the metrics you just created and split by any, or all, of the dimensions.
 1.    What this will show is the betAmount where you can easily split by Game, CheatActive and other dimensions
+1.    You can also add in the winAmount by click "**+ Source**" and finding the winAmount
+1.    Play around with the visualizations by *clicking* "**Options**" on the widget
 
