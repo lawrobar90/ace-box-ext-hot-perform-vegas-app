@@ -25,7 +25,7 @@ Vegas Application
 Game
 ```
 
-- For "**Event provider Data Source**", *click* on "**Fixed value**" and make sure that "**Request - Body**" is *selected*
+- For "**Event type**", *change* "**Data source**" to "**Request - Body**"
 - For "**Path**", *copy* and *paste*:
 ```
 Game
@@ -33,7 +33,7 @@ Game
 
 ##### Configure metadata (Event Type)
 
-- For "**Event type data source**", *click* on "**Fixed value**" and make sure that "**Request - Body**" is *selected*
+- For "**Event type**", *change* "**Data source**" to "**Request - Body**"
 - For "**Path**", *copy* and *paste*:
 
 ```
