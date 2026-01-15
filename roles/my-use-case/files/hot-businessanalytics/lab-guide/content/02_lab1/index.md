@@ -75,8 +75,7 @@ rsBody
 ### 1.2 Service Naming Rules
 
 ##### Create a Service Naming Rule for the intelligent traceing to be captured
-- *Open* "**Settings Classic**"
-- *Open* "**Server-side Service monitoring**" menu group
+- On the same screen, *Click* "**Server-side Service monitoring**" from the left *Navigation Panel*
 - *Click* on "**Service naming rules**" and add a new rule.
 - For Rule name, *copy* and *paste*:
   
