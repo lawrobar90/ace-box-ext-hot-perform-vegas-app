@@ -39,6 +39,7 @@ It should looke like the below
        json.cheat_active,
        json.result, dt.openpipeline.pipelines
     | sort timestamp desc
+    | filter json.CustomerName == "Your_UI_Username"
    ```
 1. Click the *+* underneath the *get_cheaters* step, and choose "**HTTP Request**"
 1. Change the name of this step, *copy* and *paste*:
