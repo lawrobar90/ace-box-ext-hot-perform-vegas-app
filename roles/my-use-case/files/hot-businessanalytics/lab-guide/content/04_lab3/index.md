@@ -110,9 +110,9 @@ CustomerName
 ##### *Click* on "**Add Dimension**"
 13.   Click the 3 vertical buttons on your "**Vegas Cheating - WinAmount**" metric, and select "**Duplicate**"
 14.   Change the *Name*, *copy* and *paste*:
-     ```
-     Vegas Cheating - BetAmount
-     ```
+```
+Vegas Cheating - BetAmount
+```
 15.   Change "**Field extraction**", *copy* and *paste*:
 ```
 json.BetAmount
