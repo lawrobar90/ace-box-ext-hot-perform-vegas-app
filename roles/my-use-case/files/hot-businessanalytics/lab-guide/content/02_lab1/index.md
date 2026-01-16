@@ -25,7 +25,7 @@ Vegas Application
 Game
 ```
 
-- For "**Event type**", *change* "**Data source**" to "**Request - Body**"
+- For "**Event provider**", *change* "**Data source**" to "**Request - Body**"
 - For "**Path**", *copy* and *paste*:
 ```
 Game
