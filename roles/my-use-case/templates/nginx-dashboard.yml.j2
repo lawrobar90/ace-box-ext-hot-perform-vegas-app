@@ -10,8 +10,8 @@ data:
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Vegas Casino ACE Dashboard</title>
-        <meta name="description" content="Vegas Casino Performance Demo ACE Dashboard">
+        <title>ACE Dashboard</title>
+        <meta name="description" content="ACE Dashboard">
         <link rel="icon" href="/favicon.ico">
         <link rel="stylesheet" href="https://unpkg.com/@dynatrace/groundhog@latest/dist/css/main.css">
     </head>
@@ -28,10 +28,10 @@ data:
                         <a href="#" class="nav__link" onclick="showPage('home')">How-To ACE Box</a>
                     </li>
                     <li class="nav__item" id="nav-preview">
-                        <a href="#" class="nav__link" onclick="showPage('preview')">Vegas Casino Demo</a>
+                        <a href="#" class="nav__link" onclick="showPage('preview')">Deployment Preview</a>
                     </li>
                     <li class="nav__item" id="nav-links">
-                        <a href="#" class="nav__link" onclick="showPage('links')">Access Links</a>
+                        <a href="#" class="nav__link" onclick="showPage('links')">Links</a>
                     </li>
                 </ul>
             </nav>
@@ -42,18 +42,9 @@ data:
                 <div class="island">
                     <!-- How-To Page -->
                     <div id="page-home" class="page-content">
-                        <h1>🎰 Vegas Casino Performance Demo - How-To Guide</h1>
-                        <p>Welcome to your Vegas Casino ACE Box! This environment showcases high-performance gaming applications with real-time cheat detection, comprehensive admin APIs, and advanced monitoring capabilities.</p>
-                        <p>Before you get started, please familiarize yourself with the Dashboard you're currently looking at:</p>
-                        
-                        <ul>
-                            <li>A <strong>How-To</strong> gives you step-by-step instructions for each use case.</li>
-                            <li>As the name indicates, <strong>Deployment Preview</strong> shows you the currently deployed version of a demo application up in each stage. Don't worry, the page will fine if for now any application is not deployed yet. You will fix this as part of one the first use cases.</li>
-                            <li><strong>Links</strong> lists tools and credentials that you will need while going through the use cases.</li>
-                        </ul>
-                        
-                        <p>In addition the following tools have been set up and configured (click on each tab to get an overview of what's been configured):</p>
-                        
+                        <h1>How-To</h1>
+                        <p>Welcome to your personal ACE Box! It comes with a set of already configured tools, code, pipelines, etc. to showcase a selection of cloud automation use cases.</p>
+                        <p>Use the tabs below to access each demo application and the interactive lab guides.</p>
                         <ul class="tab-nav">
                             <li class="tab-nav__item is-active">
                                 <button class="tab-nav__link" data-tab="dynatrace">Dynatrace</button>
@@ -61,8 +52,10 @@ data:
                             <li class="tab-nav__item">
                                 <button class="tab-nav__link" data-tab="vegas-app">Vegas Application</button>
                             </li>
+                            <li class="tab-nav__item">
+                                <button class="tab-nav__link" data-tab="labguide">Lab Guide</button>
+                            </li>
                         </ul>
-                        
                         <div class="tab-content is-active" id="dynatrace">
                             <div class="service-info">
                                 <h3>🔍 Dynatrace Observability Platform</h3>
@@ -90,7 +83,41 @@ data:
                                 </ul>
                             </div>
                         </div>
-                        
+                        <div class="tab-content" id="labguide">
+                            <div class="service-info">
+                                <h3>📚 Interactive Lab Guide</h3>
+                                <div id="lab-guide"></div>
+                                <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+                                <script>
+                                async function loadLabGuide(mdUrl, guideId) {
+                                    const res = await fetch(mdUrl);
+                                    let md = await res.text();
+                                    let html = marked.parse(md);
+                                    html = html.replace(/<li>(\d+\.\s*)(.*?)(<\/li>)/g, (match, num, text) => {
+                                        const stepId = guideId + '-' + num.replace(/\D/g, '');
+                                        return `<li>
+                                            <input type="checkbox" id="${stepId}" onchange="toggleStep('${stepId}')">
+                                            <label for="${stepId}" style="margin-left:0.5em;">${text}</label>
+                                            <span id="${stepId}-tick" style="color:green;display:none;">✔️</span>
+                                        </li>`;
+                                    });
+                                    document.getElementById('lab-guide').innerHTML = html;
+                                    document.querySelectorAll('#lab-guide input[type=checkbox]').forEach(cb => {
+                                        const checked = localStorage.getItem(cb.id) === 'true';
+                                        cb.checked = checked;
+                                        document.getElementById(cb.id + '-tick').style.display = checked ? 'inline' : 'none';
+                                    });
+                                }
+                                window.toggleStep = function(stepId) {
+                                    const cb = document.getElementById(stepId);
+                                    localStorage.setItem(stepId, cb.checked);
+                                    document.getElementById(stepId + '-tick').style.display = cb.checked ? 'inline' : 'none';
+                                };
+                                // Example usage: load a guide (adjust the path as needed)
+                                loadLabGuide('/roles/my-use-case/files/hot-businessanalytics/lab-guide/content/02_lab1/index.md', 'lab1');
+                                </script>
+                            </div>
+                        </div>
                     </div>
                     
                     <!-- Deployment Preview Page -->
@@ -98,16 +125,16 @@ data:
                         <h1>Deployment Preview</h1>
                         <p>This page shows the currently deployed version of demo applications in each environment stage.</p>
                         
-                        <h2>Partner PowerUp Vegas Casino Application</h2>
+                        <h2>Partner PowerUp BizObs Application</h2>
                         <dl class="definition-list">
                             <dt>Production Environment</dt>
-                            <dd><a href="http://vegas.{{ ingress_domain }}/" target="_blank" rel="noreferrer">Vegas Casino Application - Live</a></dd>
+                            <dd><a href="http://bizobs.{{ ingress_domain }}/" target="_blank" rel="noreferrer">BizObs Application - Live</a></dd>
                             
                             <dt>Application Health</dt>
-                            <dd><a href="http://vegas.{{ ingress_domain }}/health" target="_blank" rel="noreferrer">Health Check Endpoint</a></dd>
+                            <dd><a href="http://bizobs.{{ ingress_domain }}/health" target="_blank" rel="noreferrer">Health Check Endpoint</a></dd>
                             
                             <dt>Admin Interface</dt>
-                            <dd><a href="http://vegas.{{ ingress_domain }}/admin" target="_blank" rel="noreferrer">Admin Lockout Dashboard</a></dd>
+                            <dd><a href="http://bizobs.{{ ingress_domain }}/api/admin/services/status" target="_blank" rel="noreferrer">Service Status Dashboard</a></dd>
                         </dl>
                     </div>
                     
@@ -121,8 +148,16 @@ data:
                             <dt>Dynatrace Environment</dt>
                             <dd><a href="{{ extra_vars.dt_environment_url_gen3 | default('https://your-tenant.apps.dynatrace.com') }}" target="_blank" rel="noreferrer">Access your Dynatrace tenant</a></dd>
                             
-                            <dt>Vegas Casino Application</dt>
-                            <dd><a href="http://vegas.{{ ingress_domain }}/" target="_blank" rel="noreferrer">Performance demo gaming application</a></dd>
+                            <dt>BizObs Application</dt>
+                            <dd><a href="http://bizobs.{{ ingress_domain }}/" target="_blank" rel="noreferrer">Business Observability demo application</a></dd>
+                            
+                            <dt>Mattermost</dt>
+                            <dd>
+                                <a href="http://mattermost.{{ ingress_domain }}/" target="_blank" rel="noreferrer">Team collaboration platform</a>
+                                <div style="margin-top: 0.5rem; padding: 0.5rem; background-color: var(--color-background-subtle); border-radius: 4px;">
+                                    <small><strong>Login:</strong> {{ mattermost_username | default('admin') }} / {{ mattermost_password | default('admin123') }}</small>
+                                </div>
+                            </dd>
                         </dl>
                     </div>
                 </div>
@@ -470,8 +505,14 @@ spec:
           value: "{{ ingress_domain | default('localhost') }}"
         - name: DT_ENVIRONMENT_URL
           value: "{{ extra_vars.dt_environment_url_gen3 | default('https://YOUR_TENANT.apps.dynatrace.com') }}"
-        - name: VEGAS_URL
-          value: "http://vegas.{{ ingress_domain | default('localhost') }}"
+        - name: BIZOBS_URL
+          value: "http://bizobs.{{ ingress_domain | default('localhost') }}"
+        - name: MATTERMOST_URL
+          value: "http://mattermost.{{ ingress_domain | default('localhost') }}"
+        - name: MATTERMOST_USERNAME
+          value: "{{ mattermost_username | default('admin') }}"
+        - name: MATTERMOST_PASSWORD
+          value: "{{ mattermost_password | default('admin123') }}"
       volumes:
       - name: dashboard-content
         configMap:
