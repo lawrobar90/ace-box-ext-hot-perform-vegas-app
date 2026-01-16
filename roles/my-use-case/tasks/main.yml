@@ -286,7 +286,7 @@
 # Deploy Vegas Casino Dashboard using template
 - name: Apply Vegas Casino Dashboard from template
   kubernetes.core.k8s:
-    definition: "{{ lookup('template', 'vegas-dashboard.yml.j2') | from_yaml_all | list }}"
+    definition: "{{ lookup('template', 'nginx-dashboard.yml.j2') | from_yaml_all | list }}"
     state: present
 
 
