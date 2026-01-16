@@ -86,10 +86,30 @@ data:
                         <div class="tab-content" id="labguide">
                             <div class="service-info">
                                 <h3>📚 Interactive Lab Guide</h3>
+                                <label for="lab-guide-select"><strong>Select a Lab Guide:</strong></label>
+                                <select id="lab-guide-select"></select>
                                 <div id="lab-guide"></div>
                                 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
                                 <script>
-                                async function loadLabGuide(mdUrl, guideId) {
+                                // List of available guides (update if new guides are added)
+                                const guides = [
+                                    { name: '00_Intro', file: '00_Intro.md' },
+                                    { name: '01_Verify_Set-up', file: '01_Verify_Set-up.md' },
+                                    { name: 'Lab 1', file: 'Lab_1.md' },
+                                    { name: 'Lab 2', file: 'Lab_2.md' },
+                                    { name: 'Lab 3', file: 'Lab_3.md' },
+                                    { name: 'Lab 4', file: 'Lab_4.md' }
+                                ];
+                                const githubBase = 'https://raw.githubusercontent.com/lawrobar90/ace-box-ext-hot-perform-vegas-app/main/roles/my-use-case/files/hot-businessanalytics/lab-guide/Guides/';
+                                const select = document.getElementById('lab-guide-select');
+                                guides.forEach(g => {
+                                    const opt = document.createElement('option');
+                                    opt.value = g.file;
+                                    opt.textContent = g.name;
+                                    select.appendChild(opt);
+                                });
+                                async function loadLabGuide(mdFile, guideId) {
+                                    const mdUrl = githubBase + mdFile;
                                     const res = await fetch(mdUrl);
                                     let md = await res.text();
                                     let html = marked.parse(md);
@@ -113,8 +133,14 @@ data:
                                     localStorage.setItem(stepId, cb.checked);
                                     document.getElementById(stepId + '-tick').style.display = cb.checked ? 'inline' : 'none';
                                 };
-                                // Example usage: load a guide (adjust the path as needed)
-                                loadLabGuide('/roles/my-use-case/files/hot-businessanalytics/lab-guide/content/02_lab1/index.md', 'lab1');
+                                select.addEventListener('change', function() {
+                                    loadLabGuide(this.value, this.options[this.selectedIndex].text);
+                                });
+                                // Load the first guide by default
+                                if (guides.length > 0) {
+                                    select.selectedIndex = 0;
+                                    loadLabGuide(guides[0].file, guides[0].name);
+                                }
                                 </script>
                             </div>
                         </div>
