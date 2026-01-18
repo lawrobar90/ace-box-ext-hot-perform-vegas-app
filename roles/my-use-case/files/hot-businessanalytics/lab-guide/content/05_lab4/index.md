@@ -63,7 +63,8 @@ It should looke like the below
    create_bizevents_for_lockouts
    ```
 - [ ] In the "**Source code**", *copy* and *paste*:
-  ```js
+  
+```js
 import { execution } from '@dynatrace-sdk/automation-utils';
 import { businessEventsClient } from '@dynatrace-sdk/client-classic-environment-v2';
 
@@ -125,7 +126,7 @@ export default async function ({ execution_id }) {
 
 - [ ] Go back to your notebook
 - [ ] Add a new DQL, *copy* and *paste*:
-      ```
+```
       fetch bizevents
       | filter event.type == "CheatFound"
       | sort timestamp desc
@@ -140,11 +141,11 @@ export default async function ({ execution_id }) {
              json.BetAmount,
              json.multiplier,
              json.cheat_active
-      ```
+```
 - [ ] When you see your *customer_name*, go back to the workflow you just created and "**Run**"
 - [ ] Go back to your notebook
 - [ ] Add a new DQL, *copy* and *paste*:
-      ```
+```
       fetch bizevents
       | filter event.provider == "vegas-casino-fraud-prevention"
       | sort timestamp desc
@@ -157,6 +158,6 @@ export default async function ({ execution_id }) {
             lock_reason,
             user_locked,
             event.type
-      ```
+```
 - [ ] Go back into your Vegas Casino UI, and you should have an "**Account Locked**" message with a full red background.
 - [ ] You are now deemed to be a cheater, thrown out of the hotel and have a cirminal record.... Well done!
