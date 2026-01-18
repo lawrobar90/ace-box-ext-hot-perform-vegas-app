@@ -7,9 +7,9 @@ In this hands-on, we’ll be setting up this process using some existing buildin
 - [ ] At the top of the page, make sure all "**Quick Start**" options are enabled and *click* "**Save changes**".
 - [ ] Navigate to your Dynatrace Notebook, add a new DQL widget, *copy*, *paste* and *run* the following:
 ```
-    fetch logs
-     | filter matchesPhrase(content, "CustomerName")
-     | sort timestamp desc
+fetch logs
+| filter matchesPhrase(content, "CustomerName")
+| sort timestamp desc
 ```
 ### You will see new container logs that are the output of all game activity. ###
 ## Go back to your Vegas Application, *Enable Cheats*, and play some games #
@@ -141,16 +141,16 @@ matchesPhrase(content, "cheat_active\":true")
 
 - [ ] Navigate to your Dynatrace Notebook, add *three* new DQL widgets, *copy*, *paste* and *run* the following in each of them:
 ```
-    fetch logs
-    | sort timestamp desc
-    | filter dt.openpipeline.pipelines != array("logs:default")
+fetch logs
+| sort timestamp desc
+| filter dt.openpipeline.pipelines != array("logs:default")
 ```
 ```
-     fetch bizevents
-    | filter event.provider == "Vegas Casino Fraud Detection"
-    | sort timestamp desc
+fetch bizevents
+| filter event.provider == "Vegas Casino Fraud Detection"
+| sort timestamp desc
 ```
 ```
-    timeseries { sum(log.cheat_winAmount), value.A = sum(log.cheat_winAmount, scalar: true), sum(log.cheat_BetAmount), value.B = sum(log.cheat_BetAmount, scalar: true) }, union: TRUE
+timeseries { sum(log.cheat_winAmount), value.A = sum(log.cheat_winAmount, scalar: true), sum(log.cheat_BetAmount), value.B = sum(log.cheat_BetAmount, scalar: true) }, union: TRUE
 ```
 - [ ] Change *Visualization Type* to a "**Bar**" for the last *timeseries* query
