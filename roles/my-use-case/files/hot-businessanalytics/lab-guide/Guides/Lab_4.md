@@ -7,63 +7,63 @@ In this hands-on, we’ll be setting up this process using some existing buildin
 1. *Scroll down* to "**Preferences**" and *click* "**Limite outbound connections**"
 1. *Click* "**Add item**", then *copy* and *paste* the URL of your "**Vegas Application**":
 It should looke like the below
-   ```
-   vegas.******-******-******-******-*****.dynatrace.training
-   ```
+```
+vegas.******-******-******-******-*****.dynatrace.training
+```
 1. Click "**Save changes**"
 1. Using the “**App drawer**” in the top-left of the screen (or the search) – *find* the "**Workflows**" app and *open* it.
 1. *Click* "**+ Workflow**"
 1. In the first step, select "**On demand trigger**"
 1. Click the *+* underneath the trigger step, and choose "**Execute DQL Query**"
 1. Change the name of this step, *copy* and *paste*:
-   ```
-   get_cheaters
-   ```
+```
+get_cheaters
+```
 1. In the "**DQL query section**", *copy* and *paste*:
-   ```
-   fetch bizevents, from:now()-15m
-   | filter event.provider == "Vegas Casino Fraud Detection"
-   | fields timestamp,
-       event.provider,
-       event.type,
-       json.game,
-       json.CustomerName, 
-       json.cheatType,
-       json.winAmount,
-       json.Balance,
-       json.CorrelationId,
-       json.DetectionRisk,
-       json.requires_investigation,
-       json.BetAmount,
-       json.multiplier,
-       json.cheat_active,
-       json.result, dt.openpipeline.pipelines
-    | sort timestamp desc
-    | filter json.CustomerName == "Your_UI_Username"
-   ```
+```
+fetch bizevents, from:now()-15m
+| filter event.provider == "Vegas Casino Fraud Detection"
+| fields timestamp,
+event.provider,
+event.type,
+json.game,
+json.CustomerName, 
+json.cheatType,
+json.winAmount,
+json.Balance,
+json.CorrelationId,
+json.DetectionRisk,
+json.requires_investigation,
+json.BetAmount,
+json.multiplier,
+json.cheat_active,
+json.result, dt.openpipeline.pipelines
+| sort timestamp desc
+| filter json.CustomerName == "Your_UI_Username"
+```
 1. Click the *+* underneath the *get_cheaters* step, and choose "**HTTP Request**"
 1. Change the name of this step, *copy* and *paste*:
-   ```
-   lock_user
-   ```
+```
+lock_user
+```
 1. In the "**Method**", Select *POST*
 1. In the "**URL**", take the URL of the "**Vegas Casino App**", then add this to the end:
-   ```
-   /api/admin/lockout-user-cheat
-   ```
+```
+/api/admin/lockout-user-cheat
+```
 1. Your result should look like this - *https://vegas.841aedbc-af37-4e1b-a45d-ada915bf7498.dynatrace.training/api/admin/lockout-user-cheat*
 
 1. In the "**Payload**", *copy* and *paste*:
-   ```
-   {{ result("get_cheaters")["records"] | to_json }}
-   ```
+```
+{{ result("get_cheaters")["records"] | to_json }}
+```
 1. Click the *+* underneath the *lock_user* step, and choose "**Run JavaScript**"
 1. Change the name of this step, *copy* and *paste*:
-   ```
-   create_bizevents_for_lockouts
-   ```
+```
+create_bizevents_for_lockouts
+```
 1. In the "**Source code**", *copy* and *paste*:
-  ```js
+```js
 import { execution } from '@dynatrace-sdk/automation-utils';
 import { businessEventsClient } from '@dynatrace-sdk/client-classic-environment-v2';
 
@@ -125,38 +125,38 @@ export default async function ({ execution_id }) {
 
 1. Go back to your notebook
 1. Add a new DQL, *copy* and *paste*:
-      ```
-      fetch bizevents
-      | filter event.type == "CheatFound"
-      | sort timestamp desc
-      | fields timestamp,
-             json.CustomerName, 
-             json.cheatType,
-             json.winAmount,
-             json.Balance,
-             json.CorrelationId,
-             json.DetectionRisk,
-             json.requires_investigation,
-             json.BetAmount,
-             json.multiplier,
-             json.cheat_active
-      ```
+```
+fetch bizevents
+| filter event.type == "CheatFound"
+| sort timestamp desc
+| fields timestamp,
+json.CustomerName, 
+json.cheatType,
+json.winAmount,
+json.Balance,
+json.CorrelationId,
+json.DetectionRisk,
+json.requires_investigation,
+json.BetAmount,
+json.multiplier,
+json.cheat_active
+```
 1.  When you see your *customer_name*, go back to the workflow you just created and "**Run**"
 1. Go back to your notebook
 1. Add a new DQL, *copy* and *paste*:
-      ```
-      fetch bizevents
-      | filter event.provider == "vegas-casino-fraud-prevention"
-      | sort timestamp desc
-      | fields timestamp,
-            cheat_violations,
-            customer_name,
-            winnings_confiscated,
-            detection_method,
-            balance_after,
-            lock_reason,
-            user_locked,
-            event.type
-      ```
+```
+fetch bizevents
+| filter event.provider == "vegas-casino-fraud-prevention"
+| sort timestamp desc
+| fields timestamp,
+cheat_violations,
+customer_name,
+winnings_confiscated,
+detection_method,
+balance_after,
+lock_reason,
+user_locked,
+event.type
+```
 1.  Go back into your Vegas Casino UI, and you should have an "**Account Locked**" message with a full red background.
 1.  You are now deemed to be a cheater, thrown out of the hotel and have a cirminal record.... Well done!
