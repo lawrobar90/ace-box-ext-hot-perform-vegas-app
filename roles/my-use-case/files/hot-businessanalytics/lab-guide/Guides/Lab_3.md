@@ -126,7 +126,7 @@ export default async function ({ execution_id }) {
 
 - [ ] Go back to your notebook
 - [ ] Add a new DQL, *copy* and *paste*:
-      ```
+```
       fetch bizevents
       | filter event.type == "CheatFound"
       | sort timestamp desc
@@ -141,7 +141,7 @@ export default async function ({ execution_id }) {
              json.BetAmount,
              json.multiplier,
              json.cheat_active
-      ```
+```
 - [ ] When you see your *customer_name*, go back to the workflow you just created and "**Run**"
 - [ ] Go back to your notebook
 - [ ] Add a new DQL, *copy* and *paste*:
