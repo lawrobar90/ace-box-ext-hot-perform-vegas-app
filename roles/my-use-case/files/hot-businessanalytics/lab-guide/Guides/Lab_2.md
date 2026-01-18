@@ -10,9 +10,9 @@ This lab will show you how to "**Process**" and "**Extract**" your business data
 - [ ] *Click* on "**Pipelines**" just above the table displayed
 - [ ] *Click* the "**+ Pipeline**" on the far right of the screen
 - [ ] *Rename* the pipeline from "**Untitled pipeline**" to:
-      ```
-      Vegas Pipeline
-      ```
+```
+Vegas Pipeline
+```
 
 ### 1.2 OpenPipeline Processing Rule Configuration
 
@@ -20,142 +20,143 @@ This lab will show you how to "**Process**" and "**Extract**" your business data
 - [ ] From the processor dropdown menu, *Select* "**DQL**" 
 - [ ] *Name* the new processor, *copy* and *paste*:
 
-      ```
-      Vegas Gaming Details - rqBody
-      ```
+```
+Vegas Gaming Details - rqBody
+```
 
 - [ ] For "**Matching condition**", leave set to **true**
 - [ ] For "**DQL processor definition**", *copy* and *paste*:
 
-      ```
-     parse rqBody, "JSON:requestJSON"
-     | fieldsFlatten requestJSON
-      ```
+```
+parse rqBody, "JSON:requestJSON"
+| fieldsFlatten requestJSON
+```
 
 - [ ] Add another processor
 - [ ] From the processor dropdown menu, *Select* "**DQL**" 
 - [ ] *Name* the new processor, *copy* and *paste*:
 
-      ```
+```
       Vegas Gaming Details - rsBody
-      ```
+```
 
 - [ ] For "**Matching condition**", leave set to **true**
 - [ ] For "**DQL processor definition**", *copy* and *paste*:
 
-      ```
-      parse rsBody, "JSON:resultJSON"
-      | fieldsFlatten resultJSON
-      ```
+```
+parse rsBody, "JSON:resultJSON"
+| fieldsFlatten resultJSON
+```
+
 ### 1.3 OpenPipeline Metrics Extraction
 
 - [ ] *Access* the "**Metric Extraction**" tab
 - [ ] From the processor dropdown menu, *Select* "**Value Metric**" 
 - [ ] *Name* the new Value metric, *copy* and *paste*:
 
-      ```
-      BetAmount
-      ```
+```
+BetAmount
+```
 - [ ] For "**Matching condition**", *copy* and *paste*:
 
-      ```
-      isnotnull(requestJSON.BetAmount)
-      ```
+```
+isnotnull(requestJSON.BetAmount)
+```
 - [ ] For "**Field Extraction**", *copy* and *paste*:
 
-      ```
-      requestJSON.BetAmount
-      ```      
+```
+requestJSON.BetAmount
+```      
 - [ ] For "**Metric key**", *copy* and *paste*:
 
-      ```
-      bizevents.vegas.betAmount
-      ```      
+```
+bizevents.vegas.betAmount
+```      
 - [ ] For "**Dimensions**" select **custom**, *copy* and *paste*:
 - [ ] Field name on record:
-      ```
-      requestJSON.Game
-      ```   
+```
+requestJSON.Game
+```   
 - [ ] Dimension name:
-      ```
-      Game
-      ```   
+```
+Game
+```   
 - [ ] Click "**Add dimension**" on the right hand side.
 - [ ] Now, do the same for these other fields:
-      ```
-      requestJSON.CheatType
-      ```
+```
+requestJSON.CheatType
+```
 - [ ] Dimension name:
-      ```
-      CheatType
-      ```   
+```
+CheatType
+```   
 - [ ] Field name on record:
-      ```
-      requestJSON.CustomerName
-      ```
+```
+requestJSON.CustomerName
+```
 - [ ] Dimension name:
-      ```
-      CustomerName
-      ```   
+```
+CustomerName
+```   
 - [ ] Field name on record:
-      ```
-      requestJSON.CheatActive
-      ```
+```
+requestJSON.CheatActive
+```
 - [ ] Dimension name:
-      ```
-      CheatActive
-      ```   
+```
+CheatActive
+```   
 - [ ] Add a new "**Mertric Extraction**" rule as a "**Value Metric**"
 - [ ] *Name* the new Value metric, *copy* and *paste*:
-      ```
-      WinAmount
-      ```
+```
+WinAmount
+```
 - [ ] For "**Matching Condition**", *copy* and *paste*:
-      ```
-      isNotNull(resultJSON.winAmount)
-      ```
+```
+isNotNull(resultJSON.winAmount)
+```
 - [ ] For "**Field extraction Condition**", *copy* and *paste*:
-      ```
-      resultJSON.WinningAmount
-      ```      
+```
+resultJSON.WinningAmount
+```      
 - [ ] Change the "**Metric key**", *copy* and *paste*:
-      ```
-      bizevents.vegas.winAmount
-      ```         
+```
+bizevents.vegas.winAmount
+```         
 - [ ] For "**Dimensions**" select **custom**, *copy* and *paste*:
 - [ ] Field name on record:
-      ```
-      resultJSON.Game
-      ```   
+```
+resultJSON.Game
+```   
 - [ ] Dimension name:
-      ```
-      Game
-      ```   
+```
+Game
+```   
 - [ ] Click "**Add dimension**" on the right hand side.
 - [ ] Now, do the same for these other fields:
-      ```
-      resultJSON.CheatType
-      ```
+```
+resultJSON.CheatType
+```
 - [ ] Dimension name:
-      ```
-      CheatType
-      ```   
+```
+CheatType
+```   
 - [ ] Field name on record:
-      ```
-      resultJSON.CustomerName
-      ```
+```
+resultJSON.CustomerName
+```
 - [ ] Dimension name:
-      ```
-      CustomerName
-      ```   
+```
+CustomerName
+```   
 - [ ] Field name on record:
-      ```
-      resultJSON.CheatActive
-      ```
+```
+resultJSON.CheatActive
+```
 - [ ] Dimension name:
-      ```
-      CheatActive
-      ```   
+```
+CheatActive
+```   
 
 **At the top right of the screen, click "*Save*"**
 
@@ -164,13 +165,13 @@ This lab will show you how to "**Process**" and "**Extract**" your business data
 - [ ] *Access* the "**Dynamic routing**" tab
 - [ ] *Create* a *new Dynamic route*
 - [ ] For "**Name**", *copy* and *paste*: 
-      ```
-      Vegas Pipeline
-      ```
+```
+Vegas Pipeline
+```
 - [ ] For "**Matching condition**", *copy* and *paste*:
-      ```
-      isnotnull(event.provider)
-      ```
+```
+isnotnull(event.provider)
+```
 - [ ] For "**Pipeline**", *select* "**Vegas Pipeline**"
 - [ ] *Click* "**Add**" 
 
@@ -188,12 +189,12 @@ This lab will show you how to "**Process**" and "**Extract**" your business data
 - [ ] *Click* on "**DQL**"
 - [ ] *Copy* and *paste* the **query** :
 
-      ```
-     fetch bizevents
-      | filter not(matchesphrase(rsBody, "healthy"))
-      | filter dt.openpipeline.pipelines != array("bizevents:default")
-      | sort timestamp desc
-      ```
+```
+fetch bizevents
+| filter not(matchesphrase(rsBody, "healthy"))
+| filter dt.openpipeline.pipelines != array("bizevents:default")
+| sort timestamp desc
+```
 - [ ] *Click* on the "**+**" to add a new section
 - [ ] *Click* on "**Metrics**"
 - [ ] Select the metrics you just created and split by any, or all, of the dimensions.
