@@ -118,14 +118,14 @@ export default async function ({ execution_id }) {
 }
 ```
 
-1.   *Click* "**Save Draft**", then *click* "**Deploy**", and finally "**Run**" the workflow to test it works.
-1.   *Click the "**Setting Cog**" at the top right of the workflow, and *enable* "**Workflow Admin**".
-1.   You will see Customers who are cheating, but likely will not see your name yet.
+- [ ] *Click* "**Save Draft**", then *click* "**Deploy**", and finally "**Run**" the workflow to test it works.
+- [ ] *Click the "**Setting Cog**" at the top right of the workflow, and *enable* "**Workflow Admin**".
+- [ ] You will see Customers who are cheating, but likely will not see your name yet.
 
 ### Go back to the "**Vegas App**" and play some games with cheats enabled
 
-1. Go back to your notebook
-1. Add a new DQL, *copy* and *paste*:
+- [ ] Go back to your notebook
+- [ ] Add a new DQL, *copy* and *paste*:
 ```
 fetch bizevents
 | filter event.type == "CheatFound"
@@ -142,9 +142,9 @@ json.BetAmount,
 json.multiplier,
 json.cheat_active
 ```
-1.  When you see your *customer_name*, go back to the workflow you just created and "**Run**"
-1. Go back to your notebook
-1. Add a new DQL, *copy* and *paste*:
+- [ ] When you see your *customer_name*, go back to the workflow you just created and "**Run**"
+- [ ] Go back to your notebook
+- [ ] Add a new DQL, *copy* and *paste*:
 ```
 fetch bizevents
 | filter event.provider == "vegas-casino-fraud-prevention"
@@ -159,5 +159,5 @@ lock_reason,
 user_locked,
 event.type
 ```
-1.  Go back into your Vegas Casino UI, and you should have an "**Account Locked**" message with a full red background.
-1.  You are now deemed to be a cheater, thrown out of the hotel and have a cirminal record.... Well done!
+- [ ] Go back into your Vegas Casino UI, and you should have an "**Account Locked**" message with a full red background.
+- [ ] You are now deemed to be a cheater, thrown out of the hotel and have a cirminal record.... Well done!
