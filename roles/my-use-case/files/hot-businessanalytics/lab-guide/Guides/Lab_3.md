@@ -176,3 +176,4 @@ fetch bizevents
 timeseries { sum(log.cheat_WinAmount), value.A = sum(log.cheat_WinAmount, scalar: true), sum(log.cheat_BetAmount), value.B = sum(log.cheat_BetAmount, scalar: true) }, union: TRUE
 ```
 - [ ] Change *Visualization Type* to a "**Bar**" for the last *timeseries* query
+[Click to view screenshot](Lab3-MetricGraph.png)
