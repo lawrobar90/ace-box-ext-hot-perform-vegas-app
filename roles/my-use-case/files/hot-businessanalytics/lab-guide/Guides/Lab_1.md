@@ -1,4 +1,4 @@
-# Lab 1: basic configuration and exploration 
+# Lab 1: Basic configuration and exploration 
 
 This lab will show you how to *create* and *validate* **business rules**. 
 
