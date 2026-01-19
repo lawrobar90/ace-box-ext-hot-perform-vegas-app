@@ -3,7 +3,6 @@
 In this hands-on, we’ll be setting up this process using some existing building blocks! You will be capturing cheat logs, then using automation you will reduce the risk and increase revenue for your casino. 
 
 ### 4.1 Locking the users out
-### 4.1 Locking the users out
 - [ ] Using the “**App drawer**” in the top-left of the screen (or the search) – *find* the "**Setting Classic**" app and *open* it.
 - [ ] *Scroll down* to "**Preferences**" and *click* "**Limite outbound connections**"
 - [ ] *Click* "**Add item**", then *copy* and *paste* the URL of your "**Vegas Application**":
