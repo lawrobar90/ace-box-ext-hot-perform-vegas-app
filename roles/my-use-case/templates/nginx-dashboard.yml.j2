@@ -230,6 +230,26 @@ data:
                                                                                     return `<details><summary>${label}</summary><img src="https://raw.githubusercontent.com/lawrobar90/ace-box-ext-hot-perform-vegas-app/main/roles/my-use-case/files/hot-businessanalytics/lab-guide/Screenshots/${filename}" style="max-width:100%;margin-top:1em;"></details>`;
                                                                                 }
                                                                             );
+                                        // Also convert <a href="...png">Click to view screenshot</a> to a dropdown with the GitHub image
+                                        container.querySelectorAll('a').forEach(function(link) {
+                                            if (
+                                                link.textContent.trim().toLowerCase() === 'click to view screenshot' &&
+                                                link.getAttribute('href') &&
+                                                link.getAttribute('href').toLowerCase().endsWith('.png')
+                                            ) {
+                                                const filename = link.getAttribute('href');
+                                                const details = document.createElement('details');
+                                                const summary = document.createElement('summary');
+                                                summary.textContent = link.textContent;
+                                                const img = document.createElement('img');
+                                                img.src = 'https://raw.githubusercontent.com/lawrobar90/ace-box-ext-hot-perform-vegas-app/main/roles/my-use-case/files/hot-businessanalytics/lab-guide/Screenshots/' + filename;
+                                                img.style.maxWidth = '100%';
+                                                img.style.marginTop = '1em';
+                                                details.appendChild(summary);
+                                                details.appendChild(img);
+                                                link.parentNode.replaceChild(details, link);
+                                            }
+                                        });
                                                                         });
                                     // Replace all disabled checkboxes with interactive ones
                                     let stepIdx = 0;
