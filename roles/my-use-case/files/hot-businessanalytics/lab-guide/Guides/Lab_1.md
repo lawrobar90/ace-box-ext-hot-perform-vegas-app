@@ -73,7 +73,6 @@ rsBody
 ```
 *
 ```
-[Click to view screenshot](BusinessAnalytics-Oneagent-CaptureRules.png)
 
 **At the bottom of the screen, click "Save changes"**
 
@@ -106,6 +105,8 @@ vegas
 - [ ] You will see the "**Process Group Detected Names**" are now showing as the "**New name**" for the services instead of "**dynatrace-vegas-casino**". This is a typical step when working with *node.js* applications running from a single server.
 - [ ] *Click* **Create Rule**"
 - [ ] *Click* "**Save changes**" at the bottom of the screen
+
+[Click to view screenshot](ServiceNamingRules.png)
 
 ### *PLAY SOME OF THE VEGAS APPLICATIONS IN THE WEBSITE, ACTIVATE CHEATS FOR BIG WINS* ###
 ### *CAREFUL, CHEATERS NEVER PROSPER!* ###
