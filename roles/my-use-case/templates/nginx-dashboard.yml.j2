@@ -194,15 +194,30 @@ data:
                                     opt.textContent = g.name;
                                     select.appendChild(opt);
                                 });
+
+                                // Helper: slugify section titles for IDs
+                                function slugify(str) {
+                                    return str.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+                                }
+
                                 async function loadLabGuide(mdFile, guideId) {
                                     const mdUrl = githubBase + mdFile;
                                     const res = await fetch(mdUrl);
                                     let md = await res.text();
+                                    // Parse sections (e.g., 1.4 OpenPipeline Dynamic Routing)
+                                    let sectionMatches = [...md.matchAll(/^(#+)\s*([0-9]+\.[0-9]+\s+.+)$/gm)];
+                                    let sectionIds = sectionMatches.map(m => slugify(m[2]));
+                                    // Insert a placeholder for section checkboxes
+                                    md = md.replace(/^(#+)\s*([0-9]+\.[0-9]+\s+.+)$/gm, (match, hashes, title) => {
+                                        const sid = slugify(title);
+                                        return `${hashes} <span class="section-checkbox" id="section-${sid}"></span>${title}`;
+                                    });
                                     let html = marked.parse(md);
-                                    // Make all task list checkboxes interactive and remove extra bullet
+                                    // Replace all task list checkboxes with interactive ones
+                                    let stepIdx = 0;
                                     html = html.replace(/<li class="task-list-item"><input(.*?)type="checkbox"(.*?)>(.*?)<\/li>/g, (match, before, attrs, text) => {
                                         // Generate a unique stepId for localStorage
-                                        const stepId = guideId + '-' + btoa(text.trim()).replace(/[^a-zA-Z0-9]/g, '');
+                                        const stepId = guideId + '-step-' + (stepIdx++);
                                         // Remove 'disabled' and 'checked' attributes from the input
                                         let cleanAttrs = (before + attrs).replace(/disabled|checked|\s+/g, ' ');
                                         return `<li class="task-list-item no-bullet"><input type="checkbox" id="${stepId}" onchange="toggleStep('${stepId}')"${cleanAttrs}> <label for="${stepId}" style="margin-left:0.5em;">${text}</label> <span id="${stepId}-tick" style="color:green;display:none;">✔️</span></li>`;
@@ -230,12 +245,49 @@ data:
                                         pre.style.position = 'relative';
                                         pre.appendChild(btn);
                                     });
+                                    // Section completion logic
+                                    sectionIds.forEach(sid => {
+                                        // Find all checkboxes under this section
+                                        const sectionElem = document.getElementById('section-' + sid);
+                                        if (!sectionElem) return;
+                                        // Find the parent heading
+                                        let heading = sectionElem.closest('h1, h2, h3, h4, h5, h6');
+                                        // Find all checkboxes until the next heading of same or higher level
+                                        let steps = [];
+                                        let el = heading.nextElementSibling;
+                                        while (el && !(el.tagName && /^H[1-6]$/.test(el.tagName) && el.tagName <= heading.tagName)) {
+                                            if (el.querySelectorAll) {
+                                                el.querySelectorAll('input[type=checkbox]').forEach(cb => steps.push(cb));
+                                            }
+                                            el = el.nextElementSibling;
+                                        }
+                                        // Add section checkbox
+                                        const sectionCbId = 'section-cb-' + sid;
+                                        sectionElem.innerHTML = `<input type="checkbox" id="${sectionCbId}" disabled style="vertical-align:middle;"> <span id="${sectionCbId}-tick" style="color:green;display:none;vertical-align:middle;">✔️</span> `;
+                                        // Update section checkbox state
+                                        function updateSectionCb() {
+                                            const allChecked = steps.length > 0 && steps.every(cb => cb.checked);
+                                            const cb = document.getElementById(sectionCbId);
+                                            const tick = document.getElementById(sectionCbId + '-tick');
+                                            cb.checked = allChecked;
+                                            if (tick) tick.style.display = allChecked ? 'inline' : 'none';
+                                        }
+                                        steps.forEach(cb => {
+                                            cb.addEventListener('change', updateSectionCb);
+                                        });
+                                        updateSectionCb();
+                                    });
                                 }
                                 window.toggleStep = function(stepId) {
                                     const cb = document.getElementById(stepId);
                                     localStorage.setItem(stepId, cb.checked);
-                                    const tick = document.getElementById(stepId + '-tick');
+                                    const tick = document.getElementById(cb.id + '-tick');
                                     if (tick) tick.style.display = cb.checked ? 'inline' : 'none';
+                                    // Also update all section checkboxes
+                                    document.querySelectorAll('.section-checkbox').forEach(function(sectionElem) {
+                                        const sectionCb = sectionElem.querySelector('input[type=checkbox]');
+                                        if (sectionCb && typeof sectionCb.onchange === 'function') sectionCb.onchange();
+                                    });
                                 };
                                 select.addEventListener('change', function() {
                                     loadLabGuide(this.value, this.options[this.selectedIndex].text);
