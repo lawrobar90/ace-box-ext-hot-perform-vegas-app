@@ -7,7 +7,7 @@ Before we begin, let's verify that you can access the application and environmen
 - [ ] *Log in* with your **account credentials**
 - [ ] *Open* the **Business Partner event** in the section **Upcoming events**
 
-### 2. ** In your "**University Classroom**"
+### 2. In your "**University Classroom**"
 - [ ] *Navigate* to "**Environments**"
 - [ ] Cick "**Open terminal**"
 - [ ] You should see your Dynatrace dashboard beginning with "**dashboard.**"
