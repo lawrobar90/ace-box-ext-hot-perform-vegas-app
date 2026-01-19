@@ -118,7 +118,7 @@ export default async function ({ execution_id }) {
 ```
 
 - [ ] *Click* "**Save Draft**", then *click* "**Deploy**", and finally "**Run**" the workflow to test it works.
-- [ ] *Click the "**Setting Cog**" at the top right of the workflow, and *enable* "**Workflow Admin**".
+- [ ] *Click* the "**Setting Cog**" at the top right of the workflow, and *enable* "**Workflow Admin**".
 - [ ] You will see Customers who are cheating, but likely will not see your name yet.
 
 ### Go back to the "**Vegas App**" and play some games with cheats enabled
