@@ -214,6 +214,23 @@ data:
                                     });
                                     let html = marked.parse(md);
                                     document.getElementById('lab-guide').innerHTML = html;
+                                                                        // Screenshot dropdown post-processing
+                                                                        document.querySelectorAll('#lab-guide').forEach(function(container) {
+                                                                            // :::screenshot[Label](filename.png)
+                                                                            container.innerHTML = container.innerHTML.replace(
+                                                                                /:::screenshot\[(.*?)\]\((.*?)\)/g,
+                                                                                function(_, label, filename) {
+                                                                                    return `<details><summary>${label}</summary><img src="https://raw.githubusercontent.com/lawrobar90/ace-box-ext-hot-perform-vegas-app/main/roles/my-use-case/files/hot-businessanalytics/lab-guide/Screenshots/${filename}" style="max-width:100%;margin-top:1em;"></details>`;
+                                                                                }
+                                                                            );
+                                                                            // [screenshot: Label](filename.png)
+                                                                            container.innerHTML = container.innerHTML.replace(
+                                                                                /\[screenshot:\s*(.*?)\]\((.*?)\)/g,
+                                                                                function(_, label, filename) {
+                                                                                    return `<details><summary>${label}</summary><img src="https://raw.githubusercontent.com/lawrobar90/ace-box-ext-hot-perform-vegas-app/main/roles/my-use-case/files/hot-businessanalytics/lab-guide/Screenshots/${filename}" style="max-width:100%;margin-top:1em;"></details>`;
+                                                                                }
+                                                                            );
+                                                                        });
                                     // Replace all disabled checkboxes with interactive ones
                                     let stepIdx = 0;
                                     document.querySelectorAll('#lab-guide input[type=checkbox][disabled]').forEach(cb => {
