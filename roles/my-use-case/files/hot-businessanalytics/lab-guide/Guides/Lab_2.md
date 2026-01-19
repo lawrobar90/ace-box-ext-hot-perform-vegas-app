@@ -2,7 +2,7 @@
 
 This lab will show you how to "**Process**" and "**Extract**" your business data to help increase revenue and reduce risk.
 
-## 1.1 OpenPipeline Pipeline Configuration
+## 2.10 OpenPipeline Pipeline Configuration
 
 - [ ] *Click* on the "**Application Drawer**" on your Dynatrace tenant, and search for "**Settings**" and open
 - [ ] *Click* "**Process and contextualize**" on the left side bar, and *select* "**OpenPipeline**" 
@@ -14,7 +14,7 @@ This lab will show you how to "**Process**" and "**Extract**" your business data
 Vegas Pipeline
 ```
 
-## 1.2 OpenPipeline Processing Rule Configuration
+## 2.20 OpenPipeline Processing Rule Configuration
 
 - [ ] *Access* the "**Processing**" tab
 - [ ] From the processor dropdown menu, *Select* "**DQL**" 
@@ -31,6 +31,7 @@ Vegas Gaming Details - rqBody
 parse rqBody, "JSON:requestJSON"
 | fieldsFlatten requestJSON
 ```
+## 2.21 OpenPipeline Processing Rule Configuration
 
 - [ ] Add another processor
 - [ ] From the processor dropdown menu, *Select* "**DQL**" 
@@ -48,7 +49,7 @@ parse rsBody, "JSON:resultJSON"
 | fieldsFlatten resultJSON
 ```
 
-## 1.3 OpenPipeline Metrics Extraction
+## 2.30 OpenPipeline Metrics Extraction
 
 - [ ] *Access* the "**Metric Extraction**" tab
 - [ ] From the processor dropdown menu, *Select* "**Value Metric**" 
@@ -106,6 +107,9 @@ requestJSON.CheatActive
 ```
 CheatActive
 ```   
+
+## 2.31 OpenPipeline Metrics Extraction
+
 - [ ] Add a new "**Mertric Extraction**" rule as a "**Value Metric**"
 - [ ] *Name* the new Value metric, *copy* and *paste*:
 ```
@@ -160,7 +164,7 @@ CheatActive
 
 **At the top right of the screen, click "*Save*"**
 
-## 1.4 OpenPipeline Dynamic Routing
+## 2.40 OpenPipeline Dynamic Routing
 
 - [ ] *Access* the "**Dynamic routing**" tab
 - [ ] *Create* a *new Dynamic route*
@@ -181,7 +185,7 @@ isnotnull(event.provider)
 ### *PLAY SOME OF THE VEGAS APPLICATIONS IN THE WEBSITE, ACTIVATE CHEATS FOR BIG WINS* ###
 ### *CAREFUL, CHEATERS NEVER PROSPER!* ###
 
-## 1.5 Queries
+## 2.5 Queries
 
 ##### Validate new attribute
 - [ ] From the menu, *open* "**Notebooks**"
