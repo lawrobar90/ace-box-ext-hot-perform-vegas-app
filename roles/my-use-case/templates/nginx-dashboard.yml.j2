@@ -27,12 +27,6 @@ data:
                     <li class="nav__item is-current" id="nav-home">
                         <a href="#" class="nav__link" onclick="showPage('home')">How-To ACE Box</a>
                     </li>
-                    <li class="nav__item" id="nav-preview">
-                        <a href="#" class="nav__link" onclick="showPage('preview')">Deployment Preview</a>
-                    </li>
-                    <li class="nav__item" id="nav-links">
-                        <a href="#" class="nav__link" onclick="showPage('links')">Links</a>
-                    </li>
                 </ul>
             </nav>
         </div>
@@ -113,25 +107,43 @@ data:
                                     const res = await fetch(mdUrl);
                                     let md = await res.text();
                                     let html = marked.parse(md);
-                                    html = html.replace(/<li>(\d+\.\s*)(.*?)(<\/li>)/g, (match, num, text) => {
-                                        const stepId = guideId + '-' + num.replace(/\D/g, '');
-                                        return `<li>
-                                            <input type="checkbox" id="${stepId}" onchange="toggleStep('${stepId}')">
-                                            <label for="${stepId}" style="margin-left:0.5em;">${text}</label>
-                                            <span id="${stepId}-tick" style="color:green;display:none;">✔️</span>
-                                        </li>`;
+                                    // Make all task list checkboxes interactive and remove extra bullet
+                                    html = html.replace(/<li class="task-list-item"><input(.*?)type="checkbox"(.*?)>(.*?)<\/li>/g, (match, before, attrs, text) => {
+                                        // Generate a unique stepId for localStorage
+                                        const stepId = guideId + '-' + btoa(text.trim()).replace(/[^a-zA-Z0-9]/g, '');
+                                        // Remove 'disabled' and 'checked' attributes from the input
+                                        let cleanAttrs = (before + attrs).replace(/disabled|checked|\s+/g, ' ');
+                                        return `<li class="task-list-item no-bullet"><input type="checkbox" id="${stepId}" onchange="toggleStep('${stepId}')"${cleanAttrs}> <label for="${stepId}" style="margin-left:0.5em;">${text}</label> <span id="${stepId}-tick" style="color:green;display:none;">✔️</span></li>`;
                                     });
                                     document.getElementById('lab-guide').innerHTML = html;
+                                    // Restore checkbox state from localStorage
                                     document.querySelectorAll('#lab-guide input[type=checkbox]').forEach(cb => {
                                         const checked = localStorage.getItem(cb.id) === 'true';
                                         cb.checked = checked;
-                                        document.getElementById(cb.id + '-tick').style.display = checked ? 'inline' : 'none';
+                                        const tick = document.getElementById(cb.id + '-tick');
+                                        if (tick) tick.style.display = checked ? 'inline' : 'none';
+                                    });
+                                    // Add copy buttons to code blocks with improved styling
+                                    document.querySelectorAll('#lab-guide pre > code').forEach(codeBlock => {
+                                        const pre = codeBlock.parentElement;
+                                        const btn = document.createElement('button');
+                                        btn.textContent = 'Copy';
+                                        btn.className = 'copy-btn-modern';
+                                        btn.title = 'Copy to clipboard';
+                                        btn.onclick = function() {
+                                            navigator.clipboard.writeText(codeBlock.textContent);
+                                            btn.textContent = 'Copied!';
+                                            setTimeout(() => btn.textContent = 'Copy', 1200);
+                                        };
+                                        pre.style.position = 'relative';
+                                        pre.appendChild(btn);
                                     });
                                 }
                                 window.toggleStep = function(stepId) {
                                     const cb = document.getElementById(stepId);
                                     localStorage.setItem(stepId, cb.checked);
-                                    document.getElementById(stepId + '-tick').style.display = cb.checked ? 'inline' : 'none';
+                                    const tick = document.getElementById(stepId + '-tick');
+                                    if (tick) tick.style.display = cb.checked ? 'inline' : 'none';
                                 };
                                 select.addEventListener('change', function() {
                                     loadLabGuide(this.value, this.options[this.selectedIndex].text);
@@ -142,28 +154,52 @@ data:
                                     loadLabGuide(guides[0].file, guides[0].name);
                                 }
                                 </script>
+                                <style>
+                                .copy-btn-modern {
+                                    position: absolute;
+                                    top: 8px;
+                                    right: 12px;
+                                    background: #0066cc;
+                                    color: #fff;
+                                    border: none;
+                                    border-radius: 4px;
+                                    font-size: 0.85em;
+                                    cursor: pointer;
+                                    padding: 4px 12px;
+                                    z-index: 2;
+                                    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+                                    transition: background 0.2s;
+                                }
+                                .copy-btn-modern:hover {
+                                    background: #0052a3;
+                                }
+                                #lab-guide pre {
+                                    background: #222;
+                                    color: #f8f8f2;
+                                    border-radius: 6px;
+                                    padding: 1em 1.5em 1em 1em;
+                                    margin: 1.2em 0;
+                                    font-size: 1em;
+                                    overflow-x: auto;
+                                    position: relative;
+                                }
+                                #lab-guide code {
+                                    background: none;
+                                    color: inherit;
+                                    font-family: 'Fira Mono', 'Consolas', 'Menlo', 'Monaco', monospace;
+                                    font-size: 1em;
+                                }
+                                .no-bullet {
+                                    list-style-type: none !important;
+                                    margin-left: 0;
+                                    padding-left: 0;
+                                }
+                                </style>
                             </div>
                         </div>
                     </div>
                     
-                    <!-- Deployment Preview Page -->
-                    <div id="page-preview" class="page-content" style="display: none;">
-                        <h1>Deployment Preview</h1>
-                        <p>This page shows the currently deployed version of demo applications in each environment stage.</p>
-                        
-                        <h2>Partner PowerUp BizObs Application</h2>
-                        <dl class="definition-list">
-                            <dt>Production Environment</dt>
-                            <dd><a href="http://bizobs.{{ ingress_domain }}/" target="_blank" rel="noreferrer">BizObs Application - Live</a></dd>
-                            
-                            <dt>Application Health</dt>
-                            <dd><a href="http://bizobs.{{ ingress_domain }}/health" target="_blank" rel="noreferrer">Health Check Endpoint</a></dd>
-                            
-                            <dt>Admin Interface</dt>
-                            <dd><a href="http://bizobs.{{ ingress_domain }}/api/admin/services/status" target="_blank" rel="noreferrer">Service Status Dashboard</a></dd>
-                        </dl>
-                    </div>
-                    
+                                      
                     <!-- Links Page -->
                     <div id="page-links" class="page-content" style="display: none;">
                         <h1>Links</h1>
@@ -242,45 +278,6 @@ data:
                         console.log('Successfully showed tab:', targetTab);
                     } else {
                         console.error('Could not find tab content:', targetTab);
-                    }
-                    
-                    // Activate button
-                    const activeButton = document.querySelector(`[data-tab="${targetTab}"]`);
-                    if (activeButton) {
-                        activeButton.parentElement.classList.add('is-active');
-                    }
-                }
-                
-                tabButtons.forEach(button => {
-                    button.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        const targetTab = this.getAttribute('data-tab');
-                        showTab(targetTab);
-                    });
-                });
-                
-                // Show first tab by default
-                if (tabButtons.length > 0) {
-                    const firstTab = tabButtons[0].getAttribute('data-tab');
-                    showTab(firstTab);
-                }
-            });
-        </script>
-        <style>
-            .tab-nav {
-                display: flex;
-                list-style: none;
-                padding: 0;
-                margin: 2rem 0 1rem 0;
-                border-bottom: 2px solid #e0e0e0;
-                background: #f8f9fa;
-                border-radius: 8px 8px 0 0;
-                padding: 0.5rem;
-                min-height: 60px;
-                align-items: center;
-            }
-            .tab-nav__item {
                 margin-right: 0.5rem;
             }
             .tab-nav__link {
