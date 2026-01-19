@@ -131,7 +131,7 @@ export default async function ({ execution_id }) {
 
 [Click to view screenshot](Lab4-BizEventsForLocking.png)
 
-- [ ] *Click* "**Save Draft**", then *click* "**Deploy**", and finally "**Run**" the workflow to test it works.
+- [ ] *Click* "**Create Draft**", then *click* "**Deploy**", and finally "**Run**" the workflow to test it works.
 
 [Click to view screenshot](Lab4-CreateDraftAndDeploy.png)
 
