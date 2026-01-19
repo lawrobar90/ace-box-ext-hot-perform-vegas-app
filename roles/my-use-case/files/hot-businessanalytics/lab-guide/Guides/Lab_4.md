@@ -19,7 +19,7 @@ vegas.******-******-******-******-*****.dynatrace.training
 ```
 get_cheaters
 ```
-- [ ] In the "**DQL query section**", *copy* and *paste*:
+- [ ] In the "**DQL query section**", *copy* and *paste*, and "**Change the CustomerName**" to your CustomerName from the UI:
 ```
 fetch bizevents, from:now()-15m
 | filter event.provider == "Vegas Casino Fraud Detection"
