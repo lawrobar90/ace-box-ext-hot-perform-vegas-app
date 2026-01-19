@@ -69,7 +69,8 @@ rsBody
 ```
 *
 ```
-  
+:::screenshot[Click to view screenshot](Business Analytics - Oneagent - Capture Rules.png.png)
+
 **At the bottom of the screen, click "Save changes"**
 
 ## 1.2 Service Naming Rules
