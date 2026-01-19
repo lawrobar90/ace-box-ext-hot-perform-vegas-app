@@ -1,4 +1,4 @@
-## Lab 3: getting value from automation
+## Lab 3: Creating Business Solutions from Logs
 
 In this hands-on, we’ll be setting up this process using some existing building blocks! You will be capturing cheat logs, then using automation you will reduce the risk and increase revenue for your casino. 
 ### 3.1 Capturing the logs
