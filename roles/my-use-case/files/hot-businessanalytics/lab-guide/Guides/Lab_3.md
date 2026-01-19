@@ -137,6 +137,8 @@ log.cheat_BetAmount
 ```
 - [ ] *Click* "**Save**" so you don't lose this config
 
+[Click to view screenshot](Lab3-BetAmountMetric.png)
+
 ### 3.6 OpenPipeline Dynamic Routing
 - [ ] *Access* the "**Dynamic routing**" tab
 - [ ] *Create* a *new Dynamic route*
@@ -151,7 +153,7 @@ matchesPhrase(content, "cheat_active\":true")
 - [ ] For "**Pipeline**", *select* "**Vegas Cheat Logs to BizEvents**"
 - [ ] *Click* "**Add**" and then "**Save**".
 
-[Click to view screenshot](Lab3-BetAmountMetric.png)
+[Click to view screenshot](Lab3-DynamicRouting.png)
 
 ### Go back to your Vegas Application, *Enable Cheats*, and play some games ###
 
