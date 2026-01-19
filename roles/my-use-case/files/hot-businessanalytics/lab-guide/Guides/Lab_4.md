@@ -10,10 +10,16 @@ It should looke like the below
 ```
 vegas.******-******-******-******-*****.dynatrace.training
 ```
+
+[Click to view screenshot](Lab4-LimitOutboudConnections.png)
+
 - [ ] Click "**Save changes**"
 - [ ] Using the “**App drawer**” in the top-left of the screen (or the search) – *find* the "**Workflows**" app and *open* it.
 - [ ] *Click* "**+ Workflow**"
 - [ ] In the first step, select "**On demand trigger**"
+
+[Click to view screenshot](Lab4-On-DemandTrigger.png)
+
 - [ ] Click the *+* underneath the trigger step, and choose "**Execute DQL Query**"
 - [ ] Change the name of this step, *copy* and *paste*:
 ```
@@ -41,6 +47,9 @@ json.result, dt.openpipeline.pipelines
 | sort timestamp desc
 | filter json.CustomerName == "Your_UI_Username"
 ```
+
+[Click to view screenshot](Lab4-GetCheaters.png)
+
 - [ ] Click the *+* underneath the *get_cheaters* step, and choose "**HTTP Request**"
 - [ ] Change the name of this step, *copy* and *paste*:
 ```
@@ -57,6 +66,9 @@ lock_user
 ```
 {{ result("get_cheaters")["records"] | to_json }}
 ```
+
+[Click to view screenshot](Lab4-LockUser.png)
+
 - [ ] Click the *+* underneath the *lock_user* step, and choose "**Run JavaScript**"
 - [ ] Change the name of this step, *copy* and *paste*:
 ```
@@ -117,8 +129,16 @@ export default async function ({ execution_id }) {
 }
 ```
 
+[Click to view screenshot](Lab4-BizEventsForLocking.png)
+
 - [ ] *Click* "**Save Draft**", then *click* "**Deploy**", and finally "**Run**" the workflow to test it works.
+
+[Click to view screenshot](Lab4-CreateDraftAndDeploy.png)
+
 - [ ] *Click* the "**Setting Cog**" at the top right of the workflow, and *enable* "**Workflow Admin**".
+
+[Click to view screenshot](Lab4-WorkflowAdmin.png)
+
 - [ ] You will see Customers who are cheating, but likely will not see your name yet.
 
 ### Go back to the "**Vegas App**" and play some games with cheats enabled
@@ -144,7 +164,14 @@ json.BetAmount,
 json.multiplier,
 json.cheat_active
 ```
+
+[Click to view screenshot](Lab4-CheatFound.png)
+
 - [ ] When you see your *customer_name*, go back to the workflow you just created and "**Run**"
+
+[Click to view screenshot](Lab4-WorkflowComplete.png)
+
+
 - [ ] Go back to your notebook
 - [ ] Add a new DQL, *copy* and *paste*:
 ```
@@ -161,5 +188,10 @@ lock_reason,
 user_locked,
 event.type
 ```
+[Click to view screenshot](Lab4-LockingBizEvents.png)
+
 - [ ] Go back into your Vegas Casino UI, and you should have an "**Account Locked**" message with a full red background.
+
+[Click to view screenshot](Lab4-VegasAccountLocked.png)
+
 - [ ] You are now deemed to be a cheater, thrown out of the casino and potentially have a cirminal record.... Well done!
