@@ -13,7 +13,7 @@ This lab will show you how to "**Process**" and "**Extract**" your business data
 ```
 Vegas Pipeline
 ```
-[screenshot: Click to view screenshot](BusinessAnalytics-Oneagent-CaptureRules.png)
+[Click to view screenshot](BusinessAnalytics-Oneagent-CaptureRules.png)
 
 ## 2.20 OpenPipeline Processing Rule Configuration
 
