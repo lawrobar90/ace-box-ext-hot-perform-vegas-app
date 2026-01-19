@@ -24,7 +24,7 @@ Vegas Application
 ```
 Game
 ```
-[Click to view screenshot](BizEvent-Trigger.png)
+[Click to view screenshot](Lab1-BizEvent-Trigger.png)
 
 - [ ] For "**Event provider**", *change* "**Data source**" to "**Request - Body**"
 - [ ] For "**Path**", *copy* and *paste*:
@@ -43,7 +43,7 @@ Action
 
 - [ ] Leave "**Event category**" **empty*, it's optional and not needed for this training lab.
 
-[Click to view screenshot](BizEvent-EventMetaData.png)
+[Click to view screenshot](Lab1-BizEvent-EventMetaData.png)
 
 ##### Configure additional data (JSON Payloads)
 - [ ] *Click* on "**Add data field**"
@@ -106,7 +106,7 @@ vegas
 - [ ] *Click* **Create Rule**"
 - [ ] *Click* "**Save changes**" at the bottom of the screen
 
-[Click to view screenshot](ServiceNamingRules.png)
+[Click to view screenshot](Lab1-ServiceNamingRules.png)
 
 ### *PLAY SOME OF THE VEGAS APPLICATIONS IN THE WEBSITE, ACTIVATE CHEATS FOR BIG WINS* ###
 ### *CAREFUL, CHEATERS NEVER PROSPER!* ###
@@ -138,5 +138,7 @@ fetch bizevents
 | parse rsBody, "JSON:resultJSON"
 | fieldsFlatten resultJSON
 ```
-     
- ### Now this is great for a dashboard, but why not automate this parsing process instead? ###
+
+[Click to view screenshot](Lab1-DQL-BizEvents.png)
+
+### Now this is great for a dashboard, but why not automate this parsing process instead? ###
