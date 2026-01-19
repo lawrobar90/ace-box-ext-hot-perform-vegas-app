@@ -1,4 +1,4 @@
-## Lab 4: creating automation for security events
+## Lab 4: Creating Automation for Security Events
 
 In this hands-on, we’ll be setting up this process using some existing building blocks! You will be capturing cheat logs, then using automation you will reduce the risk and increase revenue for your casino. 
 
