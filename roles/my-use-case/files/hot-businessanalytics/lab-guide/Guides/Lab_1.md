@@ -69,7 +69,7 @@ rsBody
 ```
 *
 ```
-:::screenshot[Click to view screenshot](BusinessAnalytics-Oneagent-CaptureRules)
+:::screenshot[Click to view screenshot](BusinessAnalytics-Oneagent-CaptureRules.png)
 
 **At the bottom of the screen, click "Save changes"**
 
