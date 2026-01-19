@@ -15,7 +15,6 @@ Vegas Pipeline
 ```
 :::screenshot[Click to view screenshot](BusinessAnalytics-Oneagent-CaptureRules.png)
 
-
 ## 2.20 OpenPipeline Processing Rule Configuration
 
 - [ ] *Access* the "**Processing**" tab
