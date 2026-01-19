@@ -24,6 +24,7 @@ Vegas Application
 ```
 Game
 ```
+[Click to view screenshot](BizEvent-Trigger.png)
 
 - [ ] For "**Event provider**", *change* "**Data source**" to "**Request - Body**"
 - [ ] For "**Path**", *copy* and *paste*:
