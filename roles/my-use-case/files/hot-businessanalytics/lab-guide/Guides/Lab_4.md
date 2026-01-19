@@ -129,7 +129,10 @@ export default async function ({ execution_id }) {
 fetch bizevents
 | filter event.type == "CheatFound"
 | sort timestamp desc
-| fields timestamp,
+| fields 
+event.provider,
+event.type,
+timestamp,
 json.CustomerName, 
 json.cheatType,
 json.winAmount,
@@ -159,4 +162,4 @@ user_locked,
 event.type
 ```
 - [ ] Go back into your Vegas Casino UI, and you should have an "**Account Locked**" message with a full red background.
-- [ ] You are now deemed to be a cheater, thrown out of the hotel and have a cirminal record.... Well done!
+- [ ] You are now deemed to be a cheater, thrown out of the casino and potentially have a cirminal record.... Well done!
