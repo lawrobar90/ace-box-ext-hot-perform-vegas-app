@@ -12,11 +12,9 @@ Before we begin, let's verify that you can access the application and environmen
 - [ ] Cick "**Open terminal**"
 - [ ] You should see your Dynatrace dashboard beginning with "**dashboard.**"
 - [ ] If this does not appear, *copy* and *paste* the following in your terminal to get your dashboard URL:
- 
 ```
 kubectl get ingress -A 2>/dev/null || echo "No kubectl found"
 ```
-
 - [ ] *Open* your Dynatrace Dashboard from the terminal URL
 
 ### 3. **Verify Dynatrace Dashboard**
