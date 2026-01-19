@@ -2,7 +2,7 @@
 
 This lab will show you how to "**Process**" and "**Extract**" your business data to help increase revenue and reduce risk.
 
-### 1.1 OpenPipeline Pipeline Configuration
+## 1.1 OpenPipeline Pipeline Configuration
 
 - [ ] *Click* on the "**Application Drawer**" on your Dynatrace tenant, and search for "**Settings**" and open
 - [ ] *Click* "**Process and contextualize**" on the left side bar, and *select* "**OpenPipeline**" 
@@ -14,7 +14,7 @@ This lab will show you how to "**Process**" and "**Extract**" your business data
 Vegas Pipeline
 ```
 
-### 1.2 OpenPipeline Processing Rule Configuration
+## 1.2 OpenPipeline Processing Rule Configuration
 
 - [ ] *Access* the "**Processing**" tab
 - [ ] From the processor dropdown menu, *Select* "**DQL**" 
@@ -48,7 +48,7 @@ parse rsBody, "JSON:resultJSON"
 | fieldsFlatten resultJSON
 ```
 
-### 1.3 OpenPipeline Metrics Extraction
+## 1.3 OpenPipeline Metrics Extraction
 
 - [ ] *Access* the "**Metric Extraction**" tab
 - [ ] From the processor dropdown menu, *Select* "**Value Metric**" 
@@ -160,7 +160,7 @@ CheatActive
 
 **At the top right of the screen, click "*Save*"**
 
-### 1.4 OpenPipeline Dynamic Routing
+## 1.4 OpenPipeline Dynamic Routing
 
 - [ ] *Access* the "**Dynamic routing**" tab
 - [ ] *Create* a *new Dynamic route*
@@ -181,7 +181,7 @@ isnotnull(event.provider)
 ### *PLAY SOME OF THE VEGAS APPLICATIONS IN THE WEBSITE, ACTIVATE CHEATS FOR BIG WINS* ###
 ### *CAREFUL, CHEATERS NEVER PROSPER!* ###
 
-### 1.5 Queries
+## 1.5 Queries
 
 ##### Validate new attribute
 - [ ] From the menu, *open* "**Notebooks**"
