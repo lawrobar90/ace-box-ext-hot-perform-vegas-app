@@ -14,6 +14,7 @@ This lab will show you how to "**Process**" and "**Extract**" your business data
 Vegas Pipeline
 ```
 
+
 ## 2.20 OpenPipeline Processing Rule Configuration
 
 - [ ] *Access* the "**Processing**" tab
@@ -31,6 +32,8 @@ Vegas Gaming Details - rqBody
 parse rqBody, "JSON:requestJSON"
 | fieldsFlatten requestJSON
 ```
+
+
 ## 2.21 OpenPipeline Processing Rule Configuration
 
 - [ ] Add another processor
@@ -48,6 +51,7 @@ parse rqBody, "JSON:requestJSON"
 parse rsBody, "JSON:resultJSON"
 | fieldsFlatten resultJSON
 ```
+
 
 ## 2.30 OpenPipeline Metrics Extraction
 
@@ -108,6 +112,7 @@ requestJSON.CheatActive
 CheatActive
 ```   
 
+
 ## 2.31 OpenPipeline Metrics Extraction
 
 - [ ] Add a new "**Mertric Extraction**" rule as a "**Value Metric**"
@@ -164,6 +169,7 @@ CheatActive
 
 **At the top right of the screen, click "*Save*"**
 
+
 ## 2.40 OpenPipeline Dynamic Routing
 
 - [ ] *Access* the "**Dynamic routing**" tab
@@ -184,6 +190,7 @@ isnotnull(event.provider)
 
 ### *PLAY SOME OF THE VEGAS APPLICATIONS IN THE WEBSITE, ACTIVATE CHEATS FOR BIG WINS* ###
 ### *CAREFUL, CHEATERS NEVER PROSPER!* ###
+
 
 ## 2.5 Queries
 
