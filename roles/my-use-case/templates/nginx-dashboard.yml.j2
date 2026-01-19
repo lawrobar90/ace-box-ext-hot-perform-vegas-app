@@ -213,15 +213,42 @@ data:
                                         return `${hashes} <span class=\"section-checkbox\" id=\"section-${sid}\"></span>${title}`;
                                     });
                                     let html = marked.parse(md);
-                                    // Replace all checkboxes (even if disabled) with interactive ones
-                                    let stepIdx = 0;
-                                    html = html.replace(/<li class=\"task-list-item\">.*?<input[^>]*type=\"checkbox\"[^>]*>(.*?)<\/li>/g, (match, text) => {
-                                        const stepId = guideId + '-step-' + (stepIdx++);
-                                        return `<li class=\"task-list-item no-bullet\"><input type=\"checkbox\" id=\"${stepId}\" onchange=\"toggleStep('${stepId}')\"> <label for=\"${stepId}\" style=\"margin-left:0.5em;\">${text.trim()}</label> <span id=\"${stepId}-tick\" style=\"color:green;display:none;\">✔️</span></li>`;
-                                    });
                                     document.getElementById('lab-guide').innerHTML = html;
-                                    // Restore checkbox state from localStorage
-                                    document.querySelectorAll('#lab-guide input[type=checkbox]').forEach(cb => {
+                                    // Replace all disabled checkboxes with interactive ones
+                                    let stepIdx = 0;
+                                    document.querySelectorAll('#lab-guide input[type=checkbox][disabled]').forEach(cb => {
+                                        const label = cb.parentNode.textContent.trim();
+                                        const stepId = guideId + '-step-' + (stepIdx++);
+                                        // Create new interactive checkbox
+                                        const newCb = document.createElement('input');
+                                        newCb.type = 'checkbox';
+                                        newCb.id = stepId;
+                                        newCb.onchange = function() { toggleStep(stepId); };
+                                        // Restore state
+                                        newCb.checked = localStorage.getItem(stepId) === 'true';
+                                        // Create label
+                                        const lbl = document.createElement('label');
+                                        lbl.htmlFor = stepId;
+                                        lbl.style.marginLeft = '0.5em';
+                                        lbl.textContent = label;
+                                        // Create tick
+                                        const tick = document.createElement('span');
+                                        tick.id = stepId + '-tick';
+                                        tick.style.color = 'green';
+                                        tick.style.display = newCb.checked ? 'inline' : 'none';
+                                        tick.textContent = '✔️';
+                                        // Replace old checkbox and label
+                                        const li = cb.closest('li');
+                                        if (li) {
+                                            li.innerHTML = '';
+                                            li.classList.add('no-bullet');
+                                            li.appendChild(newCb);
+                                            li.appendChild(lbl);
+                                            li.appendChild(tick);
+                                        }
+                                    });
+                                    // Restore state for any already-correct checkboxes
+                                    document.querySelectorAll('#lab-guide input[type=checkbox]:not([disabled])').forEach(cb => {
                                         const checked = localStorage.getItem(cb.id) === 'true';
                                         cb.checked = checked;
                                         const tick = document.getElementById(cb.id + '-tick');
