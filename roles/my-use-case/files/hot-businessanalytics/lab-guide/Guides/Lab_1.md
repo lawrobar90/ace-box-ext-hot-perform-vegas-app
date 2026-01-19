@@ -1,8 +1,8 @@
-## Lab 1: basic configuration and exploration 
+# Lab 1: basic configuration and exploration 
 
 This lab will show you how to *create* and *validate* **business rules**. 
 
-### 1.1 OneAgent rule Configuration
+## 1.1 OneAgent rule Configuration
 
 Configure
 - [ ] *Click* on the "**Apps Drawer**" on your Dynatrace tenant, and search for "**Settings**" and open
@@ -72,7 +72,7 @@ rsBody
   
 **At the bottom of the screen, click "Save changes"**
 
-### 1.2 Service Naming Rules
+## 1.2 Service Naming Rules
 
 ##### Create a Service Naming Rule for the intelligent traceing to be captured
 - [ ] On the same screen, *Click* "**Server-side Service monitoring**" from the left *Navigation Panel*
