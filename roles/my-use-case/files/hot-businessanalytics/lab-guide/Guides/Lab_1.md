@@ -42,8 +42,8 @@ Action
 ```
 
 - [ ] Leave "**Event category**" **empty*, it's optional and not needed for this training lab.
-[Click to view screenshot](BizEvent-EventMetaData.png)
 
+[Click to view screenshot](BizEvent-EventMetaData.png)
 
 ##### Configure additional data (JSON Payloads)
 - [ ] *Click* on "**Add data field**"
