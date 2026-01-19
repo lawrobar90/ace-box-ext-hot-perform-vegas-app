@@ -119,7 +119,7 @@ json.BetAmount
 ```
 - [ ] Change the *Metric key*, *copy* and *paste*:
 ```
-     log.cheat_BetAmount
+log.cheat_BetAmount
 ```
 - [ ] *Click* "**Save**" so you don't lose this config
 
