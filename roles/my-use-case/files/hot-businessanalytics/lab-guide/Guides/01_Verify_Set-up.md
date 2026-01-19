@@ -15,8 +15,8 @@ Before we begin, let's verify that you can access the application and environmen
  
 ```
 kubectl get ingress -A 2>/dev/null || echo "No kubectl found"
- 
 ```
+
 - [ ] *Open* your Dynatrace Dashboard from the terminal URL
 
 ### 3. **Verify Dynatrace Dashboard**
