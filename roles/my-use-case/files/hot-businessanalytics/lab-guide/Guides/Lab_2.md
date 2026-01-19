@@ -1,4 +1,4 @@
-## Lab 2: OpenPipeline Configuration
+## Lab 2: Processing and Contextualizing your data
 
 This lab will show you how to "**Process**" and "**Extract**" your business data to help increase revenue and reduce risk.
 
