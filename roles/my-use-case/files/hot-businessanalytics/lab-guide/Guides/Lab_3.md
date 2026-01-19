@@ -151,6 +151,6 @@ fetch bizevents
 | sort timestamp desc
 ```
 ```
-timeseries { sum(log.cheat_winAmount), value.A = sum(log.cheat_winAmount, scalar: true), sum(log.cheat_BetAmount), value.B = sum(log.cheat_BetAmount, scalar: true) }, union: TRUE
+timeseries { sum(log.cheat_WinAmount), value.A = sum(log.cheat_WinAmount, scalar: true), sum(log.cheat_BetAmount), value.B = sum(log.cheat_BetAmount, scalar: true) }, union: TRUE
 ```
 - [ ] Change *Visualization Type* to a "**Bar**" for the last *timeseries* query
