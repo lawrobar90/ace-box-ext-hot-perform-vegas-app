@@ -80,7 +80,7 @@ json.winAmount
 log.cheat_WinAmount
 ```
 - [ ] For the "**Dimensions**", *select* "**custom**"
-- [ ] In the *Field name on record*,*copy* and *paste*:
+- [ ] In the *Field name on record*, *copy* and *paste*:
 ```
 json.cheatType
 ```
