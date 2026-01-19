@@ -13,8 +13,6 @@ This lab will show you how to "**Process**" and "**Extract**" your business data
 ```
 Vegas Pipeline
 ```
-[Click to view screenshot](BusinessAnalytics-Oneagent-CaptureRules.png)
-
 ## 2.20 OpenPipeline Processing Rule Configuration
 
 - [ ] *Access* the "**Processing**" tab
@@ -32,7 +30,7 @@ Vegas Gaming Details - rqBody
 parse rqBody, "JSON:requestJSON"
 | fieldsFlatten requestJSON
 ```
-
+[Click to view screenshot](Lab2-rqBody.png)
 
 ## 2.21 OpenPipeline Processing Rule Configuration
 
@@ -51,7 +49,7 @@ parse rqBody, "JSON:requestJSON"
 parse rsBody, "JSON:resultJSON"
 | fieldsFlatten resultJSON
 ```
-
+[Click to view screenshot](Lab2-rsBody.png)
 
 ## 2.30 OpenPipeline Metrics Extraction
 
@@ -112,6 +110,7 @@ requestJSON.CheatActive
 CheatActive
 ```   
 
+[Click to view screenshot](Lab2-BetAmount.png)
 
 ## 2.31 OpenPipeline Metrics Extraction
 
@@ -169,6 +168,8 @@ CheatActive
 
 **At the top right of the screen, click "*Save*"**
 
+[Click to view screenshot](Lab2-WinAmount.png)
+
 
 ## 2.40 OpenPipeline Dynamic Routing
 
@@ -188,6 +189,8 @@ isnotnull(event.provider)
 **Just above the table, click "*Save*"**
 **Make sure you change Status to enable the Dynamic Routing**
 
+[Click to view screenshot](Lab2-DynamicRouting.png)
+
 ### *PLAY SOME OF THE VEGAS APPLICATIONS IN THE WEBSITE, ACTIVATE CHEATS FOR BIG WINS* ###
 ### *CAREFUL, CHEATERS NEVER PROSPER!* ###
 
@@ -206,6 +209,9 @@ fetch bizevents
 | filter dt.openpipeline.pipelines != array("bizevents:default")
 | sort timestamp desc
 ```
+
+[Click to view screenshot](Lab2-BizEvents-From-OpenPipeline.png)
+
 - [ ] *Click* on the "**+**" to add a new section
 - [ ] *Click* on "**Metrics**"
 - [ ] Select the metrics you just created and split by any, or all, of the dimensions.
@@ -213,3 +219,4 @@ fetch bizevents
 - [ ] You can also add in the winAmount by click "**+ Source**" and finding the winAmount
 - [ ] Play around with the visualizations by *clicking* "**Options**" on the widget
 
+[Click to view screenshot](Lab2-Explore-metrics.png)
